@@ -1,6 +1,6 @@
-# Tekkla Modebadze - Environmental Activist Website
+# Tekla Modebadze - Environmental Activist Website
 
-A personal website showcasing the environmental activism work of Tekkla Modebadze.
+A personal website showcasing the environmental activism work of Tekla Modebadze.
 
 ## Project Structure
 ```
@@ -56,4 +56,4 @@ A personal website showcasing the environmental activism work of Tekkla Modebadz
 
 ## License
 
-All rights reserved. © 2024 Tekkla Modebadze
+All rights reserved. 2024 Tekla Modebadze

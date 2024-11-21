@@ -3,6 +3,7 @@
 A personal website showcasing the environmental activism work of Tekla Modebadze.
 
 ## Project Structure
+
 ```
 .
 ├── index.html      # Main HTML file

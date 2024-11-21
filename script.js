@@ -22,22 +22,39 @@ window.addEventListener("scroll", () => {
 
 // Form submission handling
 const contactForm = document.getElementById("contact-form");
-contactForm.addEventListener("submit", function (e) {
+const submitButton = contactForm.querySelector('button[type="submit"]');
+
+contactForm.addEventListener("submit", async function (e) {
   e.preventDefault();
+  
+  // Disable submit button during submission
+  submitButton.disabled = true;
+  submitButton.textContent = "Sending...";
 
-  // Get form data
-  const formData = new FormData(this);
-  const formObject = {};
-  formData.forEach((value, key) => {
-    formObject[key] = value;
-  });
+  try {
+    const response = await fetch(this.action, {
+      method: "POST",
+      body: new FormData(this),
+      headers: {
+        Accept: "application/json",
+      },
+    });
 
-  // Here you would typically send the form data to a server
-  console.log("Form submitted:", formObject);
-
-  // Show success message
-  alert("Thank you for your message! I will get back to you soon.");
-  this.reset();
+    if (response.ok) {
+      // Show success message
+      alert("Thank you for your message! I will get back to you soon.");
+      this.reset();
+    } else {
+      throw new Error("Form submission failed");
+    }
+  } catch (error) {
+    alert("Oops! There was a problem submitting your form. Please try again.");
+    console.error("Form submission error:", error);
+  } finally {
+    // Re-enable submit button
+    submitButton.disabled = false;
+    submitButton.textContent = "Send Message";
+  }
 });
 
 // Intersection Observer for fade-in animations

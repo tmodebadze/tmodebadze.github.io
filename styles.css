@@ -451,6 +451,7 @@ footer {
 
   /* Hero Section */
   .hero {
+    background-attachment: scroll;
     height: auto;
     min-height: 100vh;
     padding: 6rem 1rem 3rem;

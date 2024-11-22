@@ -10,6 +10,60 @@ document.addEventListener('DOMContentLoaded', function() {
     let startPos = 0;
     let currentTranslate = 0;
     let prevTranslate = 0;
+    let initialX = 0;
+    let moveX = 0;
+
+    // Create certificate modal
+    const modal = document.createElement('div');
+    modal.classList.add('certificate-modal');
+    modal.innerHTML = `
+        <div class="certificate-modal-content">
+            <span class="certificate-modal-close">&times;</span>
+            <img src="" alt="Certificate" class="certificate-modal-image">
+        </div>
+    `;
+    document.body.appendChild(modal);
+
+    const modalImage = modal.querySelector('.certificate-modal-image');
+    const closeButton = modal.querySelector('.certificate-modal-close');
+
+    // Add click event to close modal
+    closeButton.addEventListener('click', () => {
+        modal.classList.remove('show');
+        resumeAutoAdvance(); // Resume slideshow when modal is closed
+    });
+
+    // Close modal when clicking outside the image
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.remove('show');
+            resumeAutoAdvance(); // Resume slideshow when modal is closed
+        }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            modal.classList.remove('show');
+            resumeAutoAdvance(); // Resume slideshow when modal is closed
+        }
+    });
+
+    // Add click events to certificate images
+    slides.forEach(slide => {
+        const img = slide.querySelector('img');
+        if (img) {
+            img.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                if (!isDragging && Math.abs(moveX) < 5) {
+                    modalImage.src = this.src;
+                    modal.classList.add('show');
+                    clearInterval(autoAdvance); // Pause slideshow when viewing certificate
+                }
+            });
+        }
+    });
 
     // Create dots
     slides.forEach((_, index) => {
@@ -75,13 +129,17 @@ document.addEventListener('DOMContentLoaded', function() {
     function touchStart(event) {
         isDragging = true;
         startPos = getPositionX(event);
+        initialX = startPos;
+        moveX = 0;
         carousel.style.cursor = 'grabbing';
         carousel.style.transition = 'none';
+        clearInterval(autoAdvance);
     }
 
     function touchMove(event) {
         if (!isDragging) return;
         const currentPosition = getPositionX(event);
+        moveX = currentPosition - initialX;
         const diff = currentPosition - startPos;
         currentTranslate = prevTranslate + diff;
         carousel.style.transform = `translateX(${currentTranslate}px)`;
@@ -91,6 +149,10 @@ document.addEventListener('DOMContentLoaded', function() {
         isDragging = false;
         carousel.style.cursor = 'grab';
         carousel.style.transition = 'transform 0.5s ease-in-out';
+
+        if (Math.abs(moveX) < 5) {
+            return; // Allow click if barely moved
+        }
 
         const slideWidth = slides[0].offsetWidth;
         const movedBy = currentTranslate - prevTranslate;
@@ -104,6 +166,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             goToSlide(currentSlide);
         }
+        resumeAutoAdvance();
     }
 
     function getPositionX(event) {
@@ -113,11 +176,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Auto-advance slides every 5 seconds
     let autoAdvance = setInterval(nextSlide, 5000);
 
+    function resumeAutoAdvance() {
+        clearInterval(autoAdvance);
+        autoAdvance = setInterval(nextSlide, 5000);
+    }
+
     // Pause auto-advance when user interacts with carousel
     carousel.addEventListener('mouseenter', () => clearInterval(autoAdvance));
-    carousel.addEventListener('mouseleave', () => {
-        autoAdvance = setInterval(nextSlide, 5000);
-    });
+    carousel.addEventListener('mouseleave', resumeAutoAdvance);
 
     // Handle window resize
     window.addEventListener('resize', () => {

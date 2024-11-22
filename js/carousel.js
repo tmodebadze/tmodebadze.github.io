@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let velocity = 0;
     let lastX = 0;
     let lastTime = 0;
+    let isTransitioning = false;
 
     // Create certificate modal
     const modal = document.createElement('div');
@@ -27,6 +28,8 @@ document.addEventListener('DOMContentLoaded', function() {
     modal.innerHTML = `
         <div class="certificate-modal-content">
             <span class="certificate-modal-close">&times;</span>
+            <button class="modal-nav-button prev" aria-label="Previous certificate">&lt;</button>
+            <button class="modal-nav-button next" aria-label="Next certificate">&gt;</button>
             <img src="" alt="Certificate" class="certificate-modal-image">
             <div class="certificate-modal-description">
                 <h3></h3>
@@ -40,6 +43,52 @@ document.addEventListener('DOMContentLoaded', function() {
     const modalTitle = modal.querySelector('.certificate-modal-description h3');
     const modalDesc = modal.querySelector('.certificate-modal-description p');
     const closeButton = modal.querySelector('.certificate-modal-close');
+    const modalPrevButton = modal.querySelector('.modal-nav-button.prev');
+    const modalNextButton = modal.querySelector('.modal-nav-button.next');
+
+    // Function to update modal content
+    function updateModalContent(index) {
+        const slide = slides[index];
+        const img = slide.querySelector('img');
+        const description = slide.querySelector('.certificate-description');
+        
+        modalImage.src = img.src;
+        modalTitle.textContent = description.querySelector('h3').textContent;
+        modalDesc.textContent = description.querySelector('p').textContent;
+    }
+
+    // Function to navigate modal
+    function navigateModal(direction) {
+        currentSlide = (currentSlide + direction + slides.length) % slides.length;
+        updateModalContent(currentSlide);
+    }
+
+    // Add click events to modal navigation buttons
+    modalPrevButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        navigateModal(-1);
+    });
+
+    modalNextButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        navigateModal(1);
+    });
+
+    // Add keyboard navigation for modal
+    function handleModalKeyboard(e) {
+        if (modal.classList.contains('show')) {
+            if (e.key === 'ArrowLeft') {
+                navigateModal(-1);
+            } else if (e.key === 'ArrowRight') {
+                navigateModal(1);
+            } else if (e.key === 'Escape') {
+                modal.classList.remove('show');
+                resumeAutoAdvance();
+            }
+        }
+    }
+
+    document.addEventListener('keydown', handleModalKeyboard);
 
     // Add click event to close modal
     closeButton.addEventListener('click', () => {
@@ -64,17 +113,16 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Add click events to certificate images
-    slides.forEach(slide => {
+    slides.forEach((slide, index) => {
         const img = slide.querySelector('img');
         const description = slide.querySelector('.certificate-description');
         if (img && description) {
             img.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                if (!isDragging && Math.abs(moveX) < 5) {
-                    modalImage.src = this.src;
-                    modalTitle.textContent = description.querySelector('h3').textContent;
-                    modalDesc.textContent = description.querySelector('p').textContent;
+                if (!isDragging || Math.abs(moveX) < 10) {
+                    currentSlide = index; // Update current slide to clicked image
+                    updateModalContent(currentSlide);
                     modal.classList.add('show');
                     pauseAutoAdvance();
                 }
@@ -101,6 +149,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Go to specific slide
     function goToSlide(index) {
+        if (isTransitioning) return;
         currentSlide = index;
         updateSlidePosition();
         updateDots();
@@ -108,6 +157,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Previous slide
     function prevSlide() {
+        if (isTransitioning) return;
         currentSlide = (currentSlide - 1 + slides.length) % slides.length;
         updateSlidePosition();
         updateDots();
@@ -115,6 +165,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Next slide
     function nextSlide() {
+        if (isTransitioning) return;
         currentSlide = (currentSlide + 1) % slides.length;
         updateSlidePosition();
         updateDots();
@@ -122,10 +173,18 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Update slide position
-    function updateSlidePosition() {
+    function updateSlidePosition(animate = true) {
         const slideWidth = slides[0].offsetWidth;
         currentTranslate = -currentSlide * slideWidth;
         prevTranslate = currentTranslate;
+        
+        if (animate) {
+            isTransitioning = true;
+            carousel.style.transition = 'transform 0.3s ease-out';
+        } else {
+            carousel.style.transition = 'none';
+        }
+        
         carousel.style.transform = `translateX(${currentTranslate}px)`;
     }
 
@@ -134,12 +193,23 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function touchStart(event) {
-        isDragging = true;
+        // Don't start new interaction while transitioning
+        if (isTransitioning) {
+            return;
+        }
+
+        // Only handle touch events and left mouse button clicks
+        if (event.type === 'mousedown' && event.button !== 0) {
+            return;
+        }
+
+        isDragging = false;
         startPos = getPositionX(event);
         initialX = startPos;
         lastX = startPos;
         lastTime = Date.now();
         velocity = 0;
+        moveX = 0;
         
         carousel.style.cursor = 'grabbing';
         carousel.style.transition = 'none';
@@ -153,26 +223,39 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function touchMove(event) {
+        // Only handle movements when mouse button is pressed or touch is active
+        if (event.type === 'mousemove' && (event.buttons === 0 || !isDragging && event.buttons !== 1)) {
+            touchEnd();
+            return;
+        }
+
+        const currentPosition = getPositionX(event);
+        moveX = currentPosition - initialX;
+        
+        // Only start dragging if we've moved more than a small threshold
+        if (!isDragging && Math.abs(moveX) > 5) {
+            isDragging = true;
+        }
+        
         if (!isDragging) return;
         
-        const currentPosition = getPositionX(event);
+        event.preventDefault(); // Prevent unwanted scrolling while dragging
+        
         const currentTime = Date.now();
         const timeDiff = currentTime - lastTime;
-        
-        moveX = currentPosition - initialX;
         const diff = currentPosition - startPos;
         
-        // Calculate velocity
+        // Calculate velocity with increased sensitivity
         if (timeDiff > 0) {
-            velocity = (currentPosition - lastX) / timeDiff;
+            velocity = (currentPosition - lastX) / timeDiff * 1.5;
         }
         
         currentTranslate = prevTranslate + diff;
         
-        // Add resistance at the edges
+        // Reduced edge resistance
         if (currentSlide === 0 && diff > 0 || 
             currentSlide === slides.length - 1 && diff < 0) {
-            currentTranslate = prevTranslate + (diff * 0.3);
+            currentTranslate = prevTranslate + (diff * 0.8);
         }
         
         carousel.style.transform = `translateX(${currentTranslate}px)`;
@@ -182,31 +265,32 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function touchEnd() {
+        const wasDragging = isDragging;
         isDragging = false;
-        const currentTime = Date.now();
+        moveX = 0; // Reset moveX
         
         // Reset touch feedback
         slides[currentSlide].style.transform = '';
         
         carousel.style.cursor = 'grab';
-        carousel.style.transition = 'transform 0.5s ease-in-out';
+        carousel.style.transition = 'transform 0.3s ease-out';
 
-        if (Math.abs(moveX) < 5) {
-            return; // Allow click if barely moved
+        if (!wasDragging) {
+            return; // If we weren't dragging, allow click events
         }
 
         const slideWidth = slides[0].offsetWidth;
         const movedBy = currentTranslate - prevTranslate;
         
-        // Use velocity to determine if we should move to next/prev slide
-        const velocityThreshold = 0.5;
+        // More sensitive velocity threshold
+        const velocityThreshold = 0.15;
         if (Math.abs(velocity) > velocityThreshold) {
             if (velocity > 0) {
                 prevSlide();
             } else {
                 nextSlide();
             }
-        } else if (Math.abs(movedBy) > slideWidth / 3) {
+        } else if (Math.abs(movedBy) > slideWidth / 4) {
             if (movedBy > 0) {
                 prevSlide();
             } else {
@@ -264,7 +348,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Handle transition end for manual navigation
-    carousel.addEventListener('transitionend', () => {
+    carousel.addEventListener('transitionend', function() {
+        isTransitioning = false;
         if (currentSlide === slides.length - 1 && !isPaused) {
             // Reset the timer when reaching the last slide
             lastAutoAdvanceTime = Date.now();
@@ -288,44 +373,50 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Event listeners for buttons
-    nextButton.addEventListener('click', () => {
-        if (currentSlide === slides.length - 1) {
-            // Smooth transition for manual navigation to first slide
-            carousel.style.transition = 'none';
-            currentSlide = -1;
-            const offset = -currentSlide * 100;
-            carousel.style.transform = `translateX(${offset}%)`;
-            
-            carousel.offsetHeight;
-            
-            setTimeout(() => {
-                carousel.style.transition = 'transform 0.5s ease-in-out';
-                moveToSlide(0);
-            }, 10);
-        } else {
-            moveToSlide(currentSlide + 1);
+    prevButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (!isTransitioning) {
+            if (currentSlide === 0) {
+                // Smooth transition for manual navigation to last slide
+                carousel.style.transition = 'none';
+                currentSlide = slides.length;
+                const offset = -currentSlide * 100;
+                carousel.style.transform = `translateX(${offset}%)`;
+                
+                carousel.offsetHeight;
+                
+                setTimeout(() => {
+                    carousel.style.transition = 'transform 0.5s ease-in-out';
+                    moveToSlide(slides.length - 1);
+                }, 10);
+            } else {
+                prevSlide();
+            }
+            lastAutoAdvanceTime = Date.now();
         }
-        lastAutoAdvanceTime = Date.now();
     });
     
-    prevButton.addEventListener('click', () => {
-        if (currentSlide === 0) {
-            // Smooth transition for manual navigation to last slide
-            carousel.style.transition = 'none';
-            currentSlide = slides.length;
-            const offset = -currentSlide * 100;
-            carousel.style.transform = `translateX(${offset}%)`;
-            
-            carousel.offsetHeight;
-            
-            setTimeout(() => {
-                carousel.style.transition = 'transform 0.5s ease-in-out';
-                moveToSlide(slides.length - 1);
-            }, 10);
-        } else {
-            moveToSlide(currentSlide - 1);
+    nextButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (!isTransitioning) {
+            if (currentSlide === slides.length - 1) {
+                // Smooth transition for manual navigation to first slide
+                carousel.style.transition = 'none';
+                currentSlide = -1;
+                const offset = -currentSlide * 100;
+                carousel.style.transform = `translateX(${offset}%)`;
+                
+                carousel.offsetHeight;
+                
+                setTimeout(() => {
+                    carousel.style.transition = 'transform 0.5s ease-in-out';
+                    moveToSlide(0);
+                }, 10);
+            } else {
+                nextSlide();
+            }
+            lastAutoAdvanceTime = Date.now();
         }
-        lastAutoAdvanceTime = Date.now();
     });
 
     // Add touch event listeners with passive option for better performance
@@ -334,11 +425,12 @@ document.addEventListener('DOMContentLoaded', function() {
     carousel.addEventListener('touchend', touchEnd);
     carousel.addEventListener('touchcancel', touchEnd);
 
-    // Mouse events
+    // Mouse events - only attach mousedown, other events are attached when needed
     carousel.addEventListener('mousedown', touchStart);
-    carousel.addEventListener('mousemove', touchMove);
-    carousel.addEventListener('mouseup', touchEnd);
-    carousel.addEventListener('mouseleave', touchEnd);
+    
+    // Add mousemove and mouseup listeners to window to handle dragging outside carousel
+    window.addEventListener('mousemove', touchMove, { passive: false });
+    window.addEventListener('mouseup', touchEnd);
 
     // Prevent context menu on long press
     carousel.addEventListener('contextmenu', (e) => {
@@ -349,10 +441,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Handle window resize
     window.addEventListener('resize', () => {
-        updateSlidePosition();
+        updateSlidePosition(false);
     });
 
     // Initialize
-    updateSlidePosition();
+    updateSlidePosition(false);
     resumeAutoAdvance();
 });

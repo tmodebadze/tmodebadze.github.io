@@ -102,32 +102,3 @@ document.querySelectorAll(".gallery-item img").forEach((img) => {
     this.classList.add("loaded");
   });
 });
-function onPlayerStateChange(event) {
-  if (event.data === YT.PlayerState.ENDED) {
-    player.playVideo();
-  }
-}
-
-// Background video transition
-document.addEventListener("DOMContentLoaded", () => {
-  const heroBg = document.querySelector(".hero-bg");
-  const videoContainer = document.getElementById("fb-video-container");
-
-  // Function to handle Facebook video
-  const initFacebookVideo = () => {
-    // Wait for FB SDK to be ready
-    if (window.FB) {
-      // After 10 seconds, fade out the hero background and fade in the video
-      setTimeout(() => {
-        heroBg.style.opacity = "0";
-        videoContainer.style.opacity = "1";
-      }, 10000);
-    } else {
-      // If FB SDK is not ready yet, try again in 1 second
-      setTimeout(initFacebookVideo, 1000);
-    }
-  };
-
-  // Initialize Facebook video handling
-  initFacebookVideo();
-});

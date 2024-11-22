@@ -12,8 +12,10 @@ document.addEventListener('DOMContentLoaded', function() {
     let prevTranslate = 0;
     let initialX = 0;
     let moveX = 0;
-    let autoAdvance = null;
+    let isPaused = false;
+    let autoAdvanceInterval = 5000; // 5 seconds
     let lastAutoAdvanceTime = Date.now();
+    let autoAdvanceTimer = null;
 
     // Create certificate modal
     const modal = document.createElement('div');
@@ -22,11 +24,17 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="certificate-modal-content">
             <span class="certificate-modal-close">&times;</span>
             <img src="" alt="Certificate" class="certificate-modal-image">
+            <div class="certificate-modal-description">
+                <h3></h3>
+                <p></p>
+            </div>
         </div>
     `;
     document.body.appendChild(modal);
 
     const modalImage = modal.querySelector('.certificate-modal-image');
+    const modalTitle = modal.querySelector('.certificate-modal-description h3');
+    const modalDesc = modal.querySelector('.certificate-modal-description p');
     const closeButton = modal.querySelector('.certificate-modal-close');
 
     // Add click event to close modal
@@ -54,12 +62,15 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add click events to certificate images
     slides.forEach(slide => {
         const img = slide.querySelector('img');
-        if (img) {
+        const description = slide.querySelector('.certificate-description');
+        if (img && description) {
             img.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
                 if (!isDragging && Math.abs(moveX) < 5) {
                     modalImage.src = this.src;
+                    modalTitle.textContent = description.querySelector('h3').textContent;
+                    modalDesc.textContent = description.querySelector('p').textContent;
                     modal.classList.add('show');
                     pauseAutoAdvance();
                 }
@@ -160,25 +171,113 @@ document.addEventListener('DOMContentLoaded', function() {
         resumeAutoAdvance();
     }
 
+    function autoAdvance() {
+        if (!isPaused) {
+            const currentTime = Date.now();
+            if (currentTime - lastAutoAdvanceTime >= autoAdvanceInterval) {
+                if (currentSlide === slides.length - 1) {
+                    // Smooth transition from last to first
+                    carousel.style.transition = 'none';
+                    currentSlide = -1;
+                    const offset = -currentSlide * 100;
+                    carousel.style.transform = `translateX(${offset}%)`;
+                    
+                    // Force a reflow
+                    carousel.offsetHeight;
+                    
+                    // Move to first slide with animation
+                    setTimeout(() => {
+                        carousel.style.transition = 'transform 0.5s ease-in-out';
+                        moveToSlide(0);
+                    }, 10);
+                } else {
+                    moveToSlide(currentSlide + 1);
+                }
+                lastAutoAdvanceTime = currentTime;
+            }
+        }
+    }
+
+    function moveToSlide(index) {
+        if (index < 0) {
+            currentSlide = slides.length - 1;
+        } else if (index >= slides.length) {
+            currentSlide = 0;
+        } else {
+            currentSlide = index;
+        }
+
+        const offset = -currentSlide * 100;
+        carousel.style.transition = 'transform 0.5s ease-in-out';
+        carousel.style.transform = `translateX(${offset}%)`;
+
+        updateDots();
+    }
+
+    // Handle transition end for manual navigation
+    carousel.addEventListener('transitionend', () => {
+        if (currentSlide === slides.length - 1 && !isPaused) {
+            // Reset the timer when reaching the last slide
+            lastAutoAdvanceTime = Date.now();
+        }
+    });
+
     function pauseAutoAdvance() {
-        clearInterval(autoAdvance);
-        autoAdvance = null;
-        lastAutoAdvanceTime = Date.now();
+        isPaused = true;
+        if (autoAdvanceTimer) {
+            clearInterval(autoAdvanceTimer);
+            autoAdvanceTimer = null;
+        }
     }
 
     function resumeAutoAdvance() {
-        if (!modal.classList.contains('show')) {
-            clearInterval(autoAdvance);
-            // Start a new interval from the current position
-            autoAdvance = setInterval(nextSlide, 5000);
-            // Reset the last advance time to now
-            lastAutoAdvanceTime = Date.now();
+        isPaused = false;
+        lastAutoAdvanceTime = Date.now(); // Reset the timer when resuming
+        if (!autoAdvanceTimer) {
+            autoAdvanceTimer = setInterval(autoAdvance, 100);
         }
     }
 
     // Event listeners for buttons
-    nextButton.addEventListener('click', nextSlide);
-    prevButton.addEventListener('click', prevSlide);
+    nextButton.addEventListener('click', () => {
+        if (currentSlide === slides.length - 1) {
+            // Smooth transition for manual navigation to first slide
+            carousel.style.transition = 'none';
+            currentSlide = -1;
+            const offset = -currentSlide * 100;
+            carousel.style.transform = `translateX(${offset}%)`;
+            
+            carousel.offsetHeight;
+            
+            setTimeout(() => {
+                carousel.style.transition = 'transform 0.5s ease-in-out';
+                moveToSlide(0);
+            }, 10);
+        } else {
+            moveToSlide(currentSlide + 1);
+        }
+        lastAutoAdvanceTime = Date.now();
+    });
+    
+    prevButton.addEventListener('click', () => {
+        if (currentSlide === 0) {
+            // Smooth transition for manual navigation to last slide
+            carousel.style.transition = 'none';
+            currentSlide = slides.length;
+            const offset = -currentSlide * 100;
+            carousel.style.transform = `translateX(${offset}%)`;
+            
+            carousel.offsetHeight;
+            
+            setTimeout(() => {
+                carousel.style.transition = 'transform 0.5s ease-in-out';
+                moveToSlide(slides.length - 1);
+            }, 10);
+        } else {
+            moveToSlide(currentSlide - 1);
+        }
+        lastAutoAdvanceTime = Date.now();
+    });
 
     // Touch events for mobile
     carousel.addEventListener('touchstart', touchStart);

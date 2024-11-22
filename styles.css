@@ -467,33 +467,60 @@ h3 {
 
 .certificate-modal-content {
   position: relative;
-  max-width: 90%;
-  max-height: 90vh;
-  margin: auto;
+  width: 90%;
+  max-width: 900px;
+  max-height: 85vh;
+  background-color: white;
+  border-radius: 12px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 .certificate-modal-image {
-  max-width: 100%;
-  max-height: 90vh;
+  width: 100%;
+  max-height: 60vh;
   object-fit: contain;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.certificate-modal-description {
+  text-align: center;
+}
+
+.certificate-modal-description h3 {
+  color: var(--primary-color);
+  margin-bottom: 0.75rem;
+  font-size: 1.3rem;
+}
+
+.certificate-modal-description p {
+  color: var(--text-color);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0;
 }
 
 .certificate-modal-close {
   position: absolute;
-  right: -40px;
-  top: -40px;
-  color: #fff;
-  font-size: 32px;
+  right: 1rem;
+  top: 1rem;
+  color: var(--text-color);
+  font-size: 28px;
   font-weight: bold;
   cursor: pointer;
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: color 0.3s ease;
+  background: none;
+  border: none;
+  padding: 0;
+  z-index: 2;
 }
 
 .certificate-modal-close:hover {
@@ -502,113 +529,42 @@ h3 {
 
 @media (max-width: 768px) {
   .certificate-modal-content {
-    max-width: 95%;
+    width: 95%;
+    padding: 1.5rem;
+    gap: 1rem;
   }
 
-  .certificate-modal-close {
-    right: 10px;
-    top: -50px;
-  }
-}
-
-/* Tablet Devices */
-@media (max-width: 1024px) {
-  .certificates {
-    padding: 50px 0;
+  .certificate-modal-image {
+    max-height: 50vh;
   }
 
-  .carousel-container {
-    max-width: 90%;
+  .certificate-modal-description h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
   }
 
-  .carousel-slide img {
-    max-height: 350px;
-  }
-}
-
-/* Mobile Devices */
-@media (max-width: 768px) {
-  .certificates {
-    padding: 40px 0;
-  }
-
-  .carousel-container {
-    max-width: 95%;
-  }
-
-  .carousel-slide {
-    padding: 5px;
-  }
-
-  .carousel-slide img {
-    max-height: 300px;
-  }
-
-  .carousel-button {
-    width: 28px;
-    height: 28px;
-    font-size: 1rem;
-    opacity: 0.8;
-  }
-
-  .certificate-description {
-    padding: 8px;
-    margin-top: 8px;
-  }
-
-  .certificate-description p {
-    font-size: 0.85rem;
-  }
-
-  .carousel-dots {
-    gap: 8px;
-    padding: 8px 0;
-  }
-
-  .carousel-dot {
-    width: 10px;
-    height: 10px;
-  }
-}
-
-/* Small Mobile Devices */
-@media (max-width: 480px) {
-  .certificates {
-    padding: 30px 0;
-  }
-
-  .carousel-slide img {
-    max-height: 250px;
-  }
-
-  .carousel-button {
-    width: 24px;
-    height: 24px;
+  .certificate-modal-description p {
     font-size: 0.9rem;
   }
 
-  .certificate-description p {
-    font-size: 0.8rem;
-  }
-
-  .carousel-dots {
-    gap: 6px;
+  .certificate-modal-close {
+    font-size: 24px;
+    right: 0.75rem;
+    top: 0.75rem;
   }
 }
 
-/* Landscape Mode */
-@media (max-height: 480px) and (orientation: landscape) {
-  .certificates {
-    padding: 20px 0;
+@media (max-width: 480px) {
+  .certificate-modal-content {
+    padding: 1rem;
   }
 
-  .carousel-slide img {
-    max-height: 200px;
+  .certificate-modal-description h3 {
+    font-size: 1rem;
   }
 
-  .certificate-description {
-    margin-top: 5px;
-    padding: 5px;
+  .certificate-modal-description p {
+    font-size: 0.85rem;
   }
 }
 
@@ -842,5 +798,106 @@ footer {
   /* Contact */
   .contact-form {
     padding: 1rem;
+  }
+}
+
+/* Tablet Devices */
+@media (max-width: 1024px) {
+  .certificates {
+    padding: 50px 0;
+  }
+
+  .carousel-container {
+    max-width: 90%;
+  }
+
+  .carousel-slide img {
+    max-height: 350px;
+  }
+}
+
+/* Mobile Devices */
+@media (max-width: 768px) {
+  .certificates {
+    padding: 40px 0;
+  }
+
+  .carousel-container {
+    max-width: 95%;
+  }
+
+  .carousel-slide {
+    padding: 5px;
+  }
+
+  .carousel-slide img {
+    max-height: 300px;
+  }
+
+  .carousel-button {
+    width: 28px;
+    height: 28px;
+    font-size: 1rem;
+    opacity: 0.8;
+  }
+
+  .certificate-description {
+    padding: 8px;
+    margin-top: 8px;
+  }
+
+  .certificate-description p {
+    font-size: 0.85rem;
+  }
+
+  .carousel-dots {
+    gap: 8px;
+    padding: 8px 0;
+  }
+
+  .carousel-dot {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+/* Small Mobile Devices */
+@media (max-width: 480px) {
+  .certificates {
+    padding: 30px 0;
+  }
+
+  .carousel-slide img {
+    max-height: 250px;
+  }
+
+  .carousel-button {
+    width: 24px;
+    height: 24px;
+    font-size: 0.9rem;
+  }
+
+  .certificate-description p {
+    font-size: 0.8rem;
+  }
+
+  .carousel-dots {
+    gap: 6px;
+  }
+}
+
+/* Landscape Mode */
+@media (max-height: 480px) and (orientation: landscape) {
+  .certificates {
+    padding: 20px 0;
+  }
+
+  .carousel-slide img {
+    max-height: 200px;
+  }
+
+  .certificate-description {
+    margin-top: 5px;
+    padding: 5px;
   }
 }

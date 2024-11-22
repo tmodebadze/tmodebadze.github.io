@@ -325,6 +325,218 @@ h3 {
   font-size: 1.2rem;
 }
 
+/* Certificates Section */
+.certificates {
+  padding: 60px 0;
+  background-color: var(--white);
+}
+
+.carousel-container {
+  position: relative;
+  max-width: 600px;
+  margin: 0 auto;
+  overflow: hidden;
+  touch-action: pan-y pinch-zoom;
+}
+
+.carousel-wrapper {
+  position: relative;
+  -webkit-overflow-scrolling: touch;
+}
+
+.carousel {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  will-change: transform;
+}
+
+.carousel-slide {
+  min-width: 100%;
+  padding: 10px;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.carousel-slide img {
+  width: 100%;
+  height: auto;
+  max-height: 400px;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+
+.certificate-description {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: var(--light-bg);
+  border-radius: 6px;
+  text-align: center;
+}
+
+.certificate-description p {
+  margin: 0;
+  color: var(--text-color);
+  font-size: 0.9rem;
+}
+
+.carousel-button {
+  position: absolute;
+  top: 40%;
+  transform: translateY(-50%);
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+  z-index: 10;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.carousel-button:hover {
+  background-color: var(--secondary-color);
+}
+
+.carousel-button.prev {
+  left: 5px;
+}
+
+.carousel-button.next {
+  right: 5px;
+}
+
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  gap: 6px;
+  padding: 10px 0;
+}
+
+.carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #ccc;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.carousel-dot.active {
+  background-color: var(--primary-color);
+}
+
+/* Tablet Devices */
+@media (max-width: 1024px) {
+  .certificates {
+    padding: 50px 0;
+  }
+
+  .carousel-container {
+    max-width: 90%;
+  }
+
+  .carousel-slide img {
+    max-height: 350px;
+  }
+}
+
+/* Mobile Devices */
+@media (max-width: 768px) {
+  .certificates {
+    padding: 40px 0;
+  }
+
+  .carousel-container {
+    max-width: 95%;
+  }
+
+  .carousel-slide {
+    padding: 5px;
+  }
+
+  .carousel-slide img {
+    max-height: 300px;
+  }
+
+  .carousel-button {
+    width: 28px;
+    height: 28px;
+    font-size: 1rem;
+    opacity: 0.8;
+  }
+
+  .certificate-description {
+    padding: 8px;
+    margin-top: 8px;
+  }
+
+  .certificate-description p {
+    font-size: 0.85rem;
+  }
+
+  .carousel-dots {
+    gap: 8px;
+    padding: 8px 0;
+  }
+
+  .carousel-dot {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+/* Small Mobile Devices */
+@media (max-width: 480px) {
+  .certificates {
+    padding: 30px 0;
+  }
+
+  .carousel-slide img {
+    max-height: 250px;
+  }
+
+  .carousel-button {
+    width: 24px;
+    height: 24px;
+    font-size: 0.9rem;
+  }
+
+  .certificate-description p {
+    font-size: 0.8rem;
+  }
+
+  .carousel-dots {
+    gap: 6px;
+  }
+}
+
+/* Landscape Mode */
+@media (max-height: 480px) and (orientation: landscape) {
+  .certificates {
+    padding: 20px 0;
+  }
+
+  .carousel-slide img {
+    max-height: 200px;
+  }
+
+  .certificate-description {
+    margin-top: 5px;
+    padding: 5px;
+  }
+}
+
 /* Contact Section */
 .contact {
   padding: 100px 0;

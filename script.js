@@ -20,6 +20,25 @@ window.addEventListener("scroll", () => {
   }
 });
 
+// Modal functionality
+const modal = document.getElementById("thank-you-modal");
+const closeModal = document.querySelector(".close-modal");
+
+function showModal() {
+  modal.classList.add("show");
+}
+
+function hideModal() {
+  modal.classList.remove("show");
+}
+
+closeModal.addEventListener("click", hideModal);
+modal.addEventListener("click", (e) => {
+  if (e.target === modal) {
+    hideModal();
+  }
+});
+
 // Form submission handling
 const contactForm = document.getElementById("contact-form");
 const submitButton = contactForm.querySelector('button[type="submit"]');
@@ -42,7 +61,7 @@ contactForm.addEventListener("submit", async function (e) {
 
     if (response.ok) {
       // Show success message
-      alert("Thank you for your message! I will get back to you soon.");
+      showModal();
       this.reset();
     } else {
       throw new Error("Form submission failed");

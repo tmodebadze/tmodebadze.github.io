@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let prevTranslate = 0;
     let initialX = 0;
     let moveX = 0;
+    let autoAdvance = null;
+    let lastAutoAdvanceTime = Date.now();
 
     // Create certificate modal
     const modal = document.createElement('div');
@@ -43,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Close modal with Escape key
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
+        if (e.key === 'Escape' && modal.classList.contains('show')) {
             modal.classList.remove('show');
             resumeAutoAdvance(); // Resume slideshow when modal is closed
         }
@@ -59,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (!isDragging && Math.abs(moveX) < 5) {
                     modalImage.src = this.src;
                     modal.classList.add('show');
-                    clearInterval(autoAdvance); // Pause slideshow when viewing certificate
+                    pauseAutoAdvance();
                 }
             });
         }
@@ -89,6 +91,21 @@ document.addEventListener('DOMContentLoaded', function() {
         updateDots();
     }
 
+    // Previous slide
+    function prevSlide() {
+        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+        updateSlidePosition();
+        updateDots();
+    }
+
+    // Next slide
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % slides.length;
+        updateSlidePosition();
+        updateDots();
+        lastAutoAdvanceTime = Date.now();
+    }
+
     // Update slide position
     function updateSlidePosition() {
         const slideWidth = slides[0].offsetWidth;
@@ -97,43 +114,17 @@ document.addEventListener('DOMContentLoaded', function() {
         carousel.style.transform = `translateX(${currentTranslate}px)`;
     }
 
-    // Next slide
-    function nextSlide() {
-        currentSlide = (currentSlide + 1) % slides.length;
-        updateSlidePosition();
-        updateDots();
+    function getPositionX(event) {
+        return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
     }
-
-    // Previous slide
-    function prevSlide() {
-        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-        updateSlidePosition();
-        updateDots();
-    }
-
-    // Event listeners for buttons
-    nextButton.addEventListener('click', nextSlide);
-    prevButton.addEventListener('click', prevSlide);
-
-    // Touch events for mobile
-    carousel.addEventListener('touchstart', touchStart);
-    carousel.addEventListener('touchmove', touchMove);
-    carousel.addEventListener('touchend', touchEnd);
-
-    // Mouse events for desktop
-    carousel.addEventListener('mousedown', touchStart);
-    carousel.addEventListener('mousemove', touchMove);
-    carousel.addEventListener('mouseup', touchEnd);
-    carousel.addEventListener('mouseleave', touchEnd);
 
     function touchStart(event) {
         isDragging = true;
         startPos = getPositionX(event);
         initialX = startPos;
-        moveX = 0;
         carousel.style.cursor = 'grabbing';
         carousel.style.transition = 'none';
-        clearInterval(autoAdvance);
+        pauseAutoAdvance();
     }
 
     function touchMove(event) {
@@ -169,21 +160,36 @@ document.addEventListener('DOMContentLoaded', function() {
         resumeAutoAdvance();
     }
 
-    function getPositionX(event) {
-        return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
+    function pauseAutoAdvance() {
+        clearInterval(autoAdvance);
+        autoAdvance = null;
+        lastAutoAdvanceTime = Date.now();
     }
-
-    // Auto-advance slides every 5 seconds
-    let autoAdvance = setInterval(nextSlide, 5000);
 
     function resumeAutoAdvance() {
-        clearInterval(autoAdvance);
-        autoAdvance = setInterval(nextSlide, 5000);
+        if (!modal.classList.contains('show')) {
+            clearInterval(autoAdvance);
+            // Start a new interval from the current position
+            autoAdvance = setInterval(nextSlide, 5000);
+            // Reset the last advance time to now
+            lastAutoAdvanceTime = Date.now();
+        }
     }
 
-    // Pause auto-advance when user interacts with carousel
-    carousel.addEventListener('mouseenter', () => clearInterval(autoAdvance));
-    carousel.addEventListener('mouseleave', resumeAutoAdvance);
+    // Event listeners for buttons
+    nextButton.addEventListener('click', nextSlide);
+    prevButton.addEventListener('click', prevSlide);
+
+    // Touch events for mobile
+    carousel.addEventListener('touchstart', touchStart);
+    carousel.addEventListener('touchmove', touchMove);
+    carousel.addEventListener('touchend', touchEnd);
+
+    // Mouse events for desktop
+    carousel.addEventListener('mousedown', touchStart);
+    carousel.addEventListener('mousemove', touchMove);
+    carousel.addEventListener('mouseup', touchEnd);
+    carousel.addEventListener('mouseleave', touchEnd);
 
     // Handle window resize
     window.addEventListener('resize', () => {
@@ -192,4 +198,5 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize
     updateSlidePosition();
+    resumeAutoAdvance();
 });

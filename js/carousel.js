@@ -16,6 +16,10 @@ document.addEventListener('DOMContentLoaded', function() {
     let autoAdvanceInterval = 5000; // 5 seconds
     let lastAutoAdvanceTime = Date.now();
     let autoAdvanceTimer = null;
+    let animationFrame = null;
+    let velocity = 0;
+    let lastX = 0;
+    let lastTime = 0;
 
     // Create certificate modal
     const modal = document.createElement('div');
@@ -133,22 +137,57 @@ document.addEventListener('DOMContentLoaded', function() {
         isDragging = true;
         startPos = getPositionX(event);
         initialX = startPos;
+        lastX = startPos;
+        lastTime = Date.now();
+        velocity = 0;
+        
         carousel.style.cursor = 'grabbing';
         carousel.style.transition = 'none';
+        
+        cancelAnimationFrame(animationFrame);
         pauseAutoAdvance();
+
+        // Show touch feedback
+        const currentSlideElement = slides[currentSlide];
+        currentSlideElement.style.transform = 'scale(0.98)';
     }
 
     function touchMove(event) {
         if (!isDragging) return;
+        
         const currentPosition = getPositionX(event);
+        const currentTime = Date.now();
+        const timeDiff = currentTime - lastTime;
+        
         moveX = currentPosition - initialX;
         const diff = currentPosition - startPos;
+        
+        // Calculate velocity
+        if (timeDiff > 0) {
+            velocity = (currentPosition - lastX) / timeDiff;
+        }
+        
         currentTranslate = prevTranslate + diff;
+        
+        // Add resistance at the edges
+        if (currentSlide === 0 && diff > 0 || 
+            currentSlide === slides.length - 1 && diff < 0) {
+            currentTranslate = prevTranslate + (diff * 0.3);
+        }
+        
         carousel.style.transform = `translateX(${currentTranslate}px)`;
+        
+        lastX = currentPosition;
+        lastTime = currentTime;
     }
 
     function touchEnd() {
         isDragging = false;
+        const currentTime = Date.now();
+        
+        // Reset touch feedback
+        slides[currentSlide].style.transform = '';
+        
         carousel.style.cursor = 'grab';
         carousel.style.transition = 'transform 0.5s ease-in-out';
 
@@ -158,8 +197,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const slideWidth = slides[0].offsetWidth;
         const movedBy = currentTranslate - prevTranslate;
-
-        if (Math.abs(movedBy) > slideWidth / 3) {
+        
+        // Use velocity to determine if we should move to next/prev slide
+        const velocityThreshold = 0.5;
+        if (Math.abs(velocity) > velocityThreshold) {
+            if (velocity > 0) {
+                prevSlide();
+            } else {
+                nextSlide();
+            }
+        } else if (Math.abs(movedBy) > slideWidth / 3) {
             if (movedBy > 0) {
                 prevSlide();
             } else {
@@ -168,6 +215,8 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             goToSlide(currentSlide);
         }
+        
+        velocity = 0;
         resumeAutoAdvance();
     }
 
@@ -279,16 +328,24 @@ document.addEventListener('DOMContentLoaded', function() {
         lastAutoAdvanceTime = Date.now();
     });
 
-    // Touch events for mobile
-    carousel.addEventListener('touchstart', touchStart);
-    carousel.addEventListener('touchmove', touchMove);
+    // Add touch event listeners with passive option for better performance
+    carousel.addEventListener('touchstart', touchStart, { passive: true });
+    carousel.addEventListener('touchmove', touchMove, { passive: true });
     carousel.addEventListener('touchend', touchEnd);
+    carousel.addEventListener('touchcancel', touchEnd);
 
-    // Mouse events for desktop
+    // Mouse events
     carousel.addEventListener('mousedown', touchStart);
     carousel.addEventListener('mousemove', touchMove);
     carousel.addEventListener('mouseup', touchEnd);
     carousel.addEventListener('mouseleave', touchEnd);
+
+    // Prevent context menu on long press
+    carousel.addEventListener('contextmenu', (e) => {
+        if (e.target.closest('.carousel-slide')) {
+            e.preventDefault();
+        }
+    });
 
     // Handle window resize
     window.addEventListener('resize', () => {

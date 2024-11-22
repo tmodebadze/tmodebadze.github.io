@@ -45,7 +45,7 @@ const submitButton = contactForm.querySelector('button[type="submit"]');
 
 contactForm.addEventListener("submit", async function (e) {
   e.preventDefault();
-  
+
   // Disable submit button during submission
   submitButton.disabled = true;
   submitButton.textContent = "Sending...";
@@ -109,9 +109,9 @@ function onPlayerStateChange(event) {
 }
 
 // Background video transition
-document.addEventListener('DOMContentLoaded', () => {
-  const heroBg = document.querySelector('.hero-bg');
-  const videoContainer = document.getElementById('fb-video-container');
+document.addEventListener("DOMContentLoaded", () => {
+  const heroBg = document.querySelector(".hero-bg");
+  const videoContainer = document.getElementById("fb-video-container");
 
   // Function to handle Facebook video
   const initFacebookVideo = () => {
@@ -119,8 +119,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.FB) {
       // After 10 seconds, fade out the hero background and fade in the video
       setTimeout(() => {
-        heroBg.style.opacity = '0';
-        videoContainer.style.opacity = '1';
+        heroBg.style.opacity = "0";
+        videoContainer.style.opacity = "1";
       }, 10000);
     } else {
       // If FB SDK is not ready yet, try again in 1 second

@@ -358,20 +358,20 @@ h3 {
 
 .success-icon {
   font-size: 48px;
-  color: #4CAF50;
+  color: #4caf50;
   margin-bottom: 1rem;
 }
 
 .modal h3 {
   margin: 0.5rem 0;
   color: #333;
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
 }
 
 .modal p {
   margin: 1rem 0;
   color: #666;
-  font-family: 'Raleway', sans-serif;
+  font-family: "Raleway", sans-serif;
 }
 
 /* Footer */
@@ -418,11 +418,11 @@ footer {
   h1 {
     font-size: 2rem;
   }
-  
+
   h2 {
     font-size: 1.5rem;
   }
-  
+
   p {
     font-size: 0.9rem;
   }

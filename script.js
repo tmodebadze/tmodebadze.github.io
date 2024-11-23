@@ -144,60 +144,57 @@ document.addEventListener('DOMContentLoaded', function() {
   const enLabel = document.querySelector('.lang-label.en');
   const kaLabel = document.querySelector('.lang-label.ka');
 
-  // Function to wait for Google Translate to initialize
-  const waitForGoogleTranslate = (callback) => {
-    if (document.querySelector('.goog-te-combo')) {
-      callback();
-    } else {
-      setTimeout(() => waitForGoogleTranslate(callback), 100);
+  function changeLanguage(languageCode) {
+    const selectElement = document.querySelector('.goog-te-combo');
+    if (selectElement) {
+      selectElement.value = languageCode;
+      selectElement.dispatchEvent(new Event('change'));
     }
-  };
+  }
 
-  translateToggle.addEventListener('change', function() {
-    waitForGoogleTranslate(() => {
-      const googleCombo = document.querySelector('.goog-te-combo');
-      if (googleCombo) {
+  // Check periodically for Google Translate initialization
+  const checkGoogleTranslate = setInterval(() => {
+    const selectElement = document.querySelector('.goog-te-combo');
+    if (selectElement) {
+      clearInterval(checkGoogleTranslate);
+      
+      translateToggle.addEventListener('change', function() {
         if (this.checked) {
           // Switch to Georgian
-          googleCombo.value = 'ka';
+          changeLanguage('ka');
           enLabel.classList.remove('active');
           kaLabel.classList.add('active');
         } else {
           // Switch to English
-          googleCombo.value = '';  // Reset to original language
+          changeLanguage('');  // Empty string resets to original language
           kaLabel.classList.remove('active');
           enLabel.classList.add('active');
         }
-        // Trigger the change event
-        googleCombo.dispatchEvent(new Event('change'));
-        // Force the translation
-        const event = new Event('change', { bubbles: true });
-        googleCombo.dispatchEvent(event);
-      }
-    });
-  });
-
-  // Initialize Google Translate
-  const googleTranslateElementInit = () => {
-    new google.translate.TranslateElement({
-      pageLanguage: 'en',
-      includedLanguages: 'en,ka',
-      layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-      autoDisplay: false
-    }, 'google_translate_element');
-  };
-
-  // Load Google Translate script
-  const loadGoogleTranslate = () => {
-    const script = document.createElement('script');
-    script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
-    script.async = true;
-    document.body.appendChild(script);
-  };
-
-  // Make googleTranslateElementInit global
-  window.googleTranslateElementInit = googleTranslateElementInit;
-  
-  // Load Google Translate
-  loadGoogleTranslate();
+      });
+    }
+  }, 1000);
 });
+
+// Initialize Google Translate
+const googleTranslateElementInit = () => {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    includedLanguages: 'en,ka',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+    autoDisplay: false
+  }, 'google_translate_element');
+};
+
+// Load Google Translate script
+const loadGoogleTranslate = () => {
+  const script = document.createElement('script');
+  script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+  script.async = true;
+  document.body.appendChild(script);
+};
+
+// Make googleTranslateElementInit global
+window.googleTranslateElementInit = googleTranslateElementInit;
+  
+// Load Google Translate
+loadGoogleTranslate();

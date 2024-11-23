@@ -22,6 +22,7 @@ body {
   font-family: "Raleway", sans-serif;
   line-height: 1.6;
   color: var(--text-color);
+  top: 0 !important;
 }
 
 .container {
@@ -898,6 +899,33 @@ section:not(.hero) h2 {
   opacity: 1;
 }
 
+/* Hide Google Translate widget but keep it functional */
+#google_translate_element {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.goog-te-banner-frame {
+  display: none !important;
+}
+
+.goog-te-gadget {
+  font-size: 0 !important;
+}
+
+.goog-te-gadget .goog-te-combo {
+  margin: 0 !important;
+}
+
+.VIpgJd-ZVi9od-l4eHX-hSRGPd,
+.VIpgJd-ZVi9od-ORHb-OEVmcd {
+  display: none !important;
+}
+
 /* Toggle Switch */
 .switch {
   position: relative;
@@ -948,6 +976,11 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+
+/* Fix for Google Translate body offset */
+body {
+  top: 0 !important;
 }
 
 /* Mobile responsive styles */

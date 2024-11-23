@@ -930,10 +930,6 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
-/* Fix for Google Translate body offset */
-body {
-  top: 0 !important;
-}
 
 /* Mobile responsive styles */
 @media (max-width: 768px) {

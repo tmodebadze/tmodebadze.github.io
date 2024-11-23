@@ -104,32 +104,32 @@ document.querySelectorAll(".gallery-item img").forEach((img) => {
 });
 
 // Project Category Filtering
-document.addEventListener('DOMContentLoaded', function() {
-    const categoryTabs = document.querySelectorAll('.category-tab');
-    const projectCards = document.querySelectorAll('.project-card');
+document.addEventListener("DOMContentLoaded", function () {
+  const categoryTabs = document.querySelectorAll(".category-tab");
+  const projectCards = document.querySelectorAll(".project-card");
 
-    categoryTabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            // Update active tab
-            categoryTabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
+  categoryTabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      // Update active tab
+      categoryTabs.forEach((t) => t.classList.remove("active"));
+      tab.classList.add("active");
 
-            // Filter projects
-            const category = tab.dataset.category;
-            projectCards.forEach(card => {
-                if (category === 'all' || card.dataset.category === category) {
-                    card.style.display = 'block';
-                    card.style.animation = 'fadeIn 0.5s ease forwards';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        });
+      // Filter projects
+      const category = tab.dataset.category;
+      projectCards.forEach((card) => {
+        if (category === "all" || card.dataset.category === category) {
+          card.style.display = "block";
+          card.style.animation = "fadeIn 0.5s ease forwards";
+        } else {
+          card.style.display = "none";
+        }
+      });
     });
+  });
 });
 
 // Add fade-in animation
-const style = document.createElement('style');
+const style = document.createElement("style");
 style.textContent = `
     @keyframes fadeIn {
         from { opacity: 0; transform: translateY(20px); }
@@ -137,40 +137,3 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
-
-// Translation Toggle
-document.addEventListener('DOMContentLoaded', function() {
-  const translateToggle = document.getElementById('translateToggle');
-  const enLabel = document.querySelector('.lang-label.en');
-  const kaLabel = document.querySelector('.lang-label.ka');
-
-  function changeLanguage(languageCode) {
-    const selectElement = document.querySelector('.goog-te-combo');
-    if (selectElement) {
-      selectElement.value = languageCode;
-      selectElement.dispatchEvent(new Event('change'));
-    }
-  }
-
-  // Check periodically for Google Translate initialization
-  const checkGoogleTranslate = setInterval(() => {
-    const selectElement = document.querySelector('.goog-te-combo');
-    if (selectElement) {
-      clearInterval(checkGoogleTranslate);
-      
-      translateToggle.addEventListener('change', function() {
-        if (this.checked) {
-          // Switch to Georgian
-          changeLanguage('ka');
-          enLabel.classList.remove('active');
-          kaLabel.classList.add('active');
-        } else {
-          // Switch to English
-          changeLanguage('');  // Empty string resets to original language
-          kaLabel.classList.remove('active');
-          enLabel.classList.add('active');
-        }
-      });
-    }
-  }, 1000);
-});

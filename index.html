@@ -61,6 +61,16 @@
       }
     </script>
 
+    <script type="text/javascript">
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+          pageLanguage: 'en',
+          includedLanguages: 'en,ka',
+          layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+        }, 'google_translate_element');
+      }
+    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <link rel="stylesheet" href="styles.css" />
     <link
       rel="stylesheet"
@@ -83,11 +93,22 @@
         <ul class="nav-links">
           <li><a href="#home">Home</a></li>
           <li><a href="#about">About</a></li>
-          <li><a href="#work">Work</a></li>
+          <li><a href="#projects">Projects</a></li>
           <li><a href="#media">Media</a></li>
           <li><a href="#certificates">Certificates</a></li>
           <li><a href="#gallery">Gallery</a></li>
           <li><a href="#contact">Contact</a></li>
+          <li class="translate-container">
+            <div class="language-toggle">
+              <span class="lang-label en active">EN</span>
+              <label class="switch">
+                <input type="checkbox" id="translateToggle">
+                <span class="slider round"></span>
+              </label>
+              <span class="lang-label ka">KA</span>
+            </div>
+            <div id="google_translate_element" style="display: none;"></div>
+          </li>
         </ul>
       </div>
     </nav>
@@ -106,7 +127,7 @@
           understanding, and social equity.
         </p>
         <div class="hero-buttons">
-          <a href="#work" class="cta-button">Explore My Work</a>
+          <a href="#projects" class="cta-button">Explore My Projects</a>
           <a
             href="resume/Tekla_Modebadze_Resume.pdf"
             target="_blank"
@@ -121,28 +142,104 @@
       <div class="container">
         <h2>About Me</h2>
         <div class="about-content">
+          <div class="about-image">
+            <img src="images/profile/tekla-profile.jpg" alt="Tekla Modebadze" />
+          </div>
           <div class="about-text">
-            <p>
-              Born and raised in Tbilisi, Georgia, I have always been deeply
-              connected to my roots while dreaming of contributing to the global
-              community. As a high school senior at LEPL Tbilisi Public School
-              N167, I balance rigorous academics with leadership roles in
-              various extracurricular activities. My journey has been shaped by
-              a commitment to learning, community service, and fostering empathy
-              across cultures.
+            <p class="bio-intro">
+              Born and raised in Tbilisi, Georgia, I am a passionate advocate for
+              environmental sustainability and international diplomacy. As a high
+              school senior at LEPL Tbilisi Public School N167, I balance rigorous
+              academics with leadership roles in various initiatives that bridge
+              environmental activism with diplomatic engagement.
             </p>
+            <p class="bio-detail">
+              My journey began with local environmental projects, but quickly
+              evolved into a broader mission of fostering global understanding and
+              cooperation. I believe that environmental challenges require
+              international solutions, which has led me to pursue both environmental
+              activism and diplomatic endeavors.
+            </p>
+
+            <div class="skills-section">
+              <h3>Key Skills & Expertise</h3>
+              <div class="skills-grid">
+                <div class="skill-category">
+                  <h4>Environmental</h4>
+                  <ul>
+                    <li>Sustainability Planning</li>
+                    <li>Environmental Education</li>
+                    <li>Conservation Projects</li>
+                    <li>Climate Action</li>
+                  </ul>
+                </div>
+                <div class="skill-category">
+                  <h4>Leadership</h4>
+                  <ul>
+                    <li>Project Management</li>
+                    <li>Team Coordination</li>
+                    <li>Public Speaking</li>
+                    <li>Event Organization</li>
+                  </ul>
+                </div>
+                <div class="skill-category">
+                  <h4>Diplomatic</h4>
+                  <ul>
+                    <li>International Relations</li>
+                    <li>Cross-cultural Communication</li>
+                    <li>Conflict Resolution</li>
+                    <li>Policy Analysis</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
             <div class="impact-numbers">
               <div class="impact-item">
-                <span class="number">50+</span>
-                <span class="label">Projects Completed</span>
+                <span class="number">500+</span>
+                <span class="label">Volunteer Hours</span>
               </div>
               <div class="impact-item">
-                <span class="number">1000+</span>
-                <span class="label">Trees Planted</span>
+                <span class="number">20+</span>
+                <span class="label">Projects Participated</span>
               </div>
               <div class="impact-item">
-                <span class="number">25+</span>
-                <span class="label">Communities Helped</span>
+                <span class="number">10+</span>
+                <span class="label">Projects Led</span>
+              </div>
+            </div>
+
+            <div class="timeline-section">
+              <h3>Key Milestones</h3>
+              <div class="timeline">
+                <div class="timeline-item">
+                  <div class="timeline-date">2023</div>
+                  <div class="timeline-content">
+                    <h4>Model UN Environmental Committee Chair</h4>
+                    <p>Led discussions on international climate policy</p>
+                  </div>
+                </div>
+                <div class="timeline-item">
+                  <div class="timeline-date">2022</div>
+                  <div class="timeline-content">
+                    <h4>Youth Ambassador Selection</h4>
+                    <p>Chosen to represent Georgia in international youth forums</p>
+                  </div>
+                </div>
+                <div class="timeline-item">
+                  <div class="timeline-date">2022</div>
+                  <div class="timeline-content">
+                    <h4>Regional Peace Initiative Launch</h4>
+                    <p>Co-founded cross-regional youth dialogue program</p>
+                  </div>
+                </div>
+                <div class="timeline-item">
+                  <div class="timeline-date">2021</div>
+                  <div class="timeline-content">
+                    <h4>First Environmental Campaign</h4>
+                    <p>Led school-wide sustainability initiative</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -150,41 +247,129 @@
       </div>
     </section>
 
-    <section id="work" class="work">
+    <section id="projects" class="projects">
       <div class="container">
-        <h2>My Work</h2>
-        <div class="work-grid">
-          <div class="work-item">
-            <i class="fas fa-tree"></i>
-            <h3>Reforestation</h3>
-            <p>
-              Leading community-based tree planting initiatives and forest
-              restoration projects.
-            </p>
+        <h2>Projects & Initiatives</h2>
+        <div class="category-tabs">
+          <button class="category-tab active" data-category="all">All</button>
+          <button class="category-tab" data-category="environmental">Environmental</button>
+          <button class="category-tab" data-category="diplomatic">Diplomatic</button>
+        </div>
+        <div class="projects-grid">
+          <!-- Environmental Projects -->
+          <div class="project-card" data-category="environmental">
+            <div class="project-image">
+              <img src="images/projects/green-school.jpg" alt="Green School Initiative" />
+            </div>
+            <div class="project-content">
+              <h3>Green School Initiative</h3>
+              <p class="project-date">2023 - Present</p>
+              <p class="project-description">
+                Leading a comprehensive sustainability program in local schools,
+                implementing recycling systems and environmental education workshops.
+              </p>
+              <ul class="project-highlights">
+                <li>Established recycling programs in 5 schools</li>
+                <li>Conducted 20+ environmental workshops</li>
+                <li>Reduced school waste by 40%</li>
+              </ul>
+            </div>
           </div>
-          <div class="work-item">
-            <i class="fas fa-water"></i>
-            <h3>Water Conservation</h3>
-            <p>
-              Protecting water resources and promoting sustainable water
-              management practices.
-            </p>
+
+          <div class="project-card" data-category="environmental">
+            <div class="project-image">
+              <img src="images/projects/climate-action.jpg" alt="Climate Action Campaign" />
+            </div>
+            <div class="project-content">
+              <h3>Climate Action Campaign</h3>
+              <p class="project-date">2022 - 2023</p>
+              <p class="project-description">
+                Organized and led community-based climate action initiatives,
+                focusing on public awareness and policy advocacy.
+              </p>
+              <ul class="project-highlights">
+                <li>Mobilized 1000+ youth activists</li>
+                <li>Organized 3 climate strikes</li>
+                <li>Achieved policy changes in local government</li>
+              </ul>
+            </div>
           </div>
-          <div class="work-item">
-            <i class="fas fa-leaf"></i>
-            <h3>Biodiversity</h3>
-            <p>
-              Working to preserve local ecosystems and protect endangered
-              species.
-            </p>
+
+          <!-- Diplomatic Projects -->
+          <div class="project-card" data-category="diplomatic">
+            <div class="project-image">
+              <img src="images/projects/model-un.jpg" alt="Model United Nations Leadership" />
+            </div>
+            <div class="project-content">
+              <h3>Model United Nations Leadership</h3>
+              <p class="project-date">2023</p>
+              <p class="project-description">
+                Served as a delegate and committee chair in multiple Model UN conferences,
+                focusing on international environmental policy and sustainable development.
+              </p>
+              <ul class="project-highlights">
+                <li>Chaired Environmental Committee</li>
+                <li>Best Delegate Award recipient</li>
+                <li>Led resolution on climate action</li>
+              </ul>
+            </div>
           </div>
-          <div class="work-item">
-            <i class="fas fa-users"></i>
-            <h3>Community Education</h3>
-            <p>
-              Empowering communities through environmental education and
-              awareness programs.
-            </p>
+
+          <div class="project-card" data-category="diplomatic">
+            <div class="project-image">
+              <img src="images/projects/youth-ambassador.jpg" alt="Youth Ambassador Program" />
+            </div>
+            <div class="project-content">
+              <h3>Youth Ambassador Program</h3>
+              <p class="project-date">2022 - 2023</p>
+              <p class="project-description">
+                Selected as Georgia's youth representative for international exchange programs,
+                promoting cultural understanding and diplomatic relations.
+              </p>
+              <ul class="project-highlights">
+                <li>Represented Georgia in 3 international forums</li>
+                <li>Organized cross-cultural youth initiatives</li>
+                <li>Facilitated diplomatic youth exchanges</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="project-card" data-category="diplomatic">
+            <div class="project-image">
+              <img src="images/projects/peace-initiative.jpg" alt="Regional Peace Initiative" />
+            </div>
+            <div class="project-content">
+              <h3>Regional Peace Initiative</h3>
+              <p class="project-date">2023</p>
+              <p class="project-description">
+                Co-founded a youth-led program fostering dialogue and understanding
+                between young people from different Caucasus regions.
+              </p>
+              <ul class="project-highlights">
+                <li>Connected 100+ youth from different regions</li>
+                <li>Organized 5 peace-building workshops</li>
+                <li>Developed conflict resolution curriculum</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="project-card" data-category="environmental">
+            <div class="project-image">
+              <img src="images/projects/reforestation.jpg" alt="Tbilisi Reforestation Project" />
+            </div>
+            <div class="project-content">
+              <h3>Tbilisi Reforestation Project</h3>
+              <p class="project-date">2022</p>
+              <p class="project-description">
+                Spearheaded a city-wide tree planting initiative to combat urban
+                heat islands and improve air quality.
+              </p>
+              <ul class="project-highlights">
+                <li>Planted 500+ native trees</li>
+                <li>Engaged 200 volunteers</li>
+                <li>Created 3 urban mini-forests</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -198,7 +383,7 @@
             <div class="media-content">
               <h3>Interview with Georgian Times</h3>
               <p class="media-date">Featured Interview</p>
-              <p class="media-description">
+              <p class="project-description">
                 In-depth discussion about volunteering initiatives, the Helping
                 Hand organization, and our sustainability projects. Interview
                 conducted in Georgian language.

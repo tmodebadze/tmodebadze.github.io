@@ -102,3 +102,102 @@ document.querySelectorAll(".gallery-item img").forEach((img) => {
     this.classList.add("loaded");
   });
 });
+
+// Project Category Filtering
+document.addEventListener('DOMContentLoaded', function() {
+    const categoryTabs = document.querySelectorAll('.category-tab');
+    const projectCards = document.querySelectorAll('.project-card');
+
+    categoryTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            // Update active tab
+            categoryTabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            // Filter projects
+            const category = tab.dataset.category;
+            projectCards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                    card.style.animation = 'fadeIn 0.5s ease forwards';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+});
+
+// Add fade-in animation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+`;
+document.head.appendChild(style);
+
+// Translation Toggle
+document.addEventListener('DOMContentLoaded', function() {
+  const translateToggle = document.getElementById('translateToggle');
+  const enLabel = document.querySelector('.lang-label.en');
+  const kaLabel = document.querySelector('.lang-label.ka');
+
+  // Function to wait for Google Translate to initialize
+  const waitForGoogleTranslate = (callback) => {
+    if (document.querySelector('.goog-te-combo')) {
+      callback();
+    } else {
+      setTimeout(() => waitForGoogleTranslate(callback), 100);
+    }
+  };
+
+  translateToggle.addEventListener('change', function() {
+    waitForGoogleTranslate(() => {
+      const googleCombo = document.querySelector('.goog-te-combo');
+      if (googleCombo) {
+        if (this.checked) {
+          // Switch to Georgian
+          googleCombo.value = 'ka';
+          enLabel.classList.remove('active');
+          kaLabel.classList.add('active');
+        } else {
+          // Switch to English
+          googleCombo.value = '';  // Reset to original language
+          kaLabel.classList.remove('active');
+          enLabel.classList.add('active');
+        }
+        // Trigger the change event
+        googleCombo.dispatchEvent(new Event('change'));
+        // Force the translation
+        const event = new Event('change', { bubbles: true });
+        googleCombo.dispatchEvent(event);
+      }
+    });
+  });
+
+  // Initialize Google Translate
+  const googleTranslateElementInit = () => {
+    new google.translate.TranslateElement({
+      pageLanguage: 'en',
+      includedLanguages: 'en,ka',
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+      autoDisplay: false
+    }, 'google_translate_element');
+  };
+
+  // Load Google Translate script
+  const loadGoogleTranslate = () => {
+    const script = document.createElement('script');
+    script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+    script.async = true;
+    document.body.appendChild(script);
+  };
+
+  // Make googleTranslateElementInit global
+  window.googleTranslateElementInit = googleTranslateElementInit;
+  
+  // Load Google Translate
+  loadGoogleTranslate();
+});

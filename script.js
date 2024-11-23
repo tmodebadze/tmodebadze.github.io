@@ -174,27 +174,3 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }, 1000);
 });
-
-// Initialize Google Translate
-const googleTranslateElementInit = () => {
-  new google.translate.TranslateElement({
-    pageLanguage: 'en',
-    includedLanguages: 'en,ka',
-    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-    autoDisplay: false
-  }, 'google_translate_element');
-};
-
-// Load Google Translate script
-const loadGoogleTranslate = () => {
-  const script = document.createElement('script');
-  script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
-  script.async = true;
-  document.body.appendChild(script);
-};
-
-// Make googleTranslateElementInit global
-window.googleTranslateElementInit = googleTranslateElementInit;
-  
-// Load Google Translate
-loadGoogleTranslate();

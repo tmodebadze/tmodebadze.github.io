@@ -1,7 +1,7 @@
-// List of all blog posts with proper paths
+// List of all blog posts with relative paths
 const blogPosts = [
-  '/blog_posts/welcome.md',
-  '/blog_posts/trash_picking_impact.md'
+  'blog_posts/welcome.md',
+  'blog_posts/trash_picking_impact.md'
 ];
 
 let currentPost = null;
@@ -24,6 +24,7 @@ function initializeBlog() {
           <p>Error details: ${error.message}</p>
           <p>Path attempted: ${blogPosts[0]}</p>
           <p>Current URL: ${window.location.href}</p>
+          <p>Please make sure the blog_posts directory exists and contains the markdown files.</p>
         </div>
       `;
     }

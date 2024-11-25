@@ -2,79 +2,95 @@
 document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
   anchor.addEventListener("click", function (e) {
     e.preventDefault();
-    document.querySelector(this.getAttribute("href")).scrollIntoView({
-      behavior: "smooth",
-    });
+    const targetElement = document.querySelector(this.getAttribute("href"));
+    if (targetElement) {
+      targetElement.scrollIntoView({
+        behavior: "smooth",
+      });
+    }
   });
 });
 
 // Navbar background change on scroll
 const navbar = document.querySelector(".navbar");
-window.addEventListener("scroll", () => {
-  if (window.scrollY > 50) {
-    navbar.style.backgroundColor = "rgba(255, 255, 255, 0.98)";
-    navbar.style.boxShadow = "0 2px 10px rgba(0, 0, 0, 0.1)";
-  } else {
-    navbar.style.backgroundColor = "rgba(255, 255, 255, 0.95)";
-    navbar.style.boxShadow = "none";
-  }
-});
+if (navbar) {
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 50) {
+      navbar.style.backgroundColor = "rgba(255, 255, 255, 0.98)";
+      navbar.style.boxShadow = "0 2px 10px rgba(0, 0, 0, 0.1)";
+    } else {
+      navbar.style.backgroundColor = "rgba(255, 255, 255, 0.95)";
+      navbar.style.boxShadow = "none";
+    }
+  });
+}
 
 // Modal functionality
 const modal = document.getElementById("thank-you-modal");
 const closeModal = document.querySelector(".close-modal");
+const contactForm = document.getElementById("contact-form");
 
 function showModal() {
-  modal.classList.add("show");
+  if (modal) {
+    modal.classList.add("show");
+  }
 }
 
 function hideModal() {
-  modal.classList.remove("show");
+  if (modal) {
+    modal.classList.remove("show");
+  }
 }
 
-closeModal.addEventListener("click", hideModal);
-modal.addEventListener("click", (e) => {
-  if (e.target === modal) {
-    hideModal();
-  }
-});
+if (closeModal && modal) {
+  closeModal.addEventListener("click", hideModal);
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      hideModal();
+    }
+  });
+}
 
 // Form submission handling
-const contactForm = document.getElementById("contact-form");
-const submitButton = contactForm.querySelector('button[type="submit"]');
-
-contactForm.addEventListener("submit", async function (e) {
-  e.preventDefault();
-
-  // Disable submit button during submission
-  submitButton.disabled = true;
-  submitButton.textContent = "Sending...";
-
-  try {
-    const response = await fetch(this.action, {
-      method: "POST",
-      body: new FormData(this),
-      headers: {
-        Accept: "application/json",
-      },
-    });
-
-    if (response.ok) {
-      // Show success message
-      showModal();
-      this.reset();
-    } else {
-      throw new Error("Form submission failed");
+if (contactForm) {
+  const submitButton = contactForm.querySelector('button[type="submit"]');
+  
+  contactForm.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = "Sending...";
     }
-  } catch (error) {
-    alert("Oops! There was a problem submitting your form. Please try again.");
-    console.error("Form submission error:", error);
-  } finally {
-    // Re-enable submit button
-    submitButton.disabled = false;
-    submitButton.textContent = "Send Message";
-  }
-});
+    
+    try {
+      const response = await fetch(this.action, {
+        method: "POST",
+        body: new FormData(this),
+        headers: {
+          Accept: "application/json",
+        },
+      });
+
+      if (response.ok) {
+        // Show success message
+        showModal();
+        this.reset();
+      } else {
+        throw new Error("Form submission failed");
+      }
+    } catch (error) {
+      alert("Oops! There was a problem submitting your form. Please try again.");
+      console.error("Form submission error:", error);
+    } finally {
+      // Re-enable submit button
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = "Send Message";
+      }
+    }
+  });
+}
 
 // Intersection Observer for fade-in animations
 const observerOptions = {

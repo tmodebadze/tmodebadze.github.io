@@ -1,10 +1,23 @@
 // List of all blog posts
 const blogPosts = [
-  "./blog_posts/welcome.md",
-  "./blog_posts/trash_picking_impact.md",
+  "../blog_posts/welcome.md",
+  "../blog_posts/trash_picking_impact.md"
 ];
 
 let currentPost = null;
+
+// Make sure DOM is loaded before running any code
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeBlog);
+} else {
+  initializeBlog();
+}
+
+function initializeBlog() {
+  loadBlogPosts().catch(error => {
+    console.error("Failed to initialize blog:", error);
+  });
+}
 
 async function loadBlogPosts() {
   try {
@@ -150,6 +163,3 @@ function closeFullPost() {
     }, 300);
   }
 }
-
-// Load blog posts when the page loads
-document.addEventListener("DOMContentLoaded", loadBlogPosts);

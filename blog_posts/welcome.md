@@ -9,6 +9,7 @@ description: My first blog post about environmental activism and sustainable liv
 Hello everyone! I'm excited to start sharing my thoughts and experiences about environmental activism, sustainable living, and my journey as a young advocate for change.
 
 In this blog, I'll be discussing various topics including:
+
 - Environmental initiatives in Georgia
 - Sustainable living tips
 - My experiences in activism

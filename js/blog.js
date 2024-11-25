@@ -1,7 +1,7 @@
-// List of all blog posts
+// List of all blog posts with proper paths
 const blogPosts = [
-  "../blog_posts/welcome.md",
-  "../blog_posts/trash_picking_impact.md"
+  '/blog_posts/welcome.md',
+  '/blog_posts/trash_picking_impact.md'
 ];
 
 let currentPost = null;
@@ -16,6 +16,17 @@ if (document.readyState === 'loading') {
 function initializeBlog() {
   loadBlogPosts().catch(error => {
     console.error("Failed to initialize blog:", error);
+    const blogPostsContainer = document.getElementById("blogPosts");
+    if (blogPostsContainer) {
+      blogPostsContainer.innerHTML = `
+        <div class="error-message">
+          <h3>Failed to load blog posts</h3>
+          <p>Error details: ${error.message}</p>
+          <p>Path attempted: ${blogPosts[0]}</p>
+          <p>Current URL: ${window.location.href}</p>
+        </div>
+      `;
+    }
   });
 }
 
@@ -33,22 +44,19 @@ async function loadBlogPosts() {
       try {
         const response = await fetch(postPath);
         if (!response.ok) {
-          console.error(`Failed to load post: ${postPath}`, response.statusText);
-          continue;
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
         const markdownContent = await response.text();
 
         // Validate markdown content
         if (!markdownContent || !markdownContent.includes("---")) {
-          console.error(`Invalid markdown content in ${postPath}`);
-          continue;
+          throw new Error(`Invalid markdown content in ${postPath}`);
         }
 
         // Parse the front matter and content
         const parts = markdownContent.split("---").filter(part => part.trim());
         if (parts.length < 2) {
-          console.error(`Invalid front matter format in ${postPath}`);
-          continue;
+          throw new Error(`Invalid front matter format in ${postPath}`);
         }
 
         const frontMatter = parts[0];
@@ -60,14 +68,19 @@ async function loadBlogPosts() {
         blogPostsContainer.appendChild(postElement);
       } catch (postError) {
         console.error(`Error processing post ${postPath}:`, postError);
+        const errorElement = document.createElement("div");
+        errorElement.className = "blog-post error";
+        errorElement.innerHTML = `
+          <h3>Error Loading Post</h3>
+          <p>Failed to load: ${postPath}</p>
+          <p>Error: ${postError.message}</p>
+        `;
+        blogPostsContainer.appendChild(errorElement);
       }
     }
   } catch (error) {
     console.error("Error loading blog posts:", error);
-    const blogPostsContainer = document.getElementById("blogPosts");
-    if (blogPostsContainer) {
-      blogPostsContainer.innerHTML = '<p class="error-message">Failed to load blog posts. Please try again later.</p>';
-    }
+    throw error;
   }
 }
 

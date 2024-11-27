@@ -1,59 +1,71 @@
 # Tekla Modebadze - Environmental Activist Website
 
-A personal website showcasing the environmental activism work of Tekla Modebadze.
+A personal website showcasing the environmental activism work, diplomatic initiatives, and community engagement of Tekla Modebadze.
 
 ## Project Structure
 
 ```
 .
-├── index.html      # Main HTML file
-├── styles.css      # CSS styles
-├── script.js       # JavaScript functionality
-└── images/         # Directory for website images
-    ├── hero-bg.jpg     # Hero section background
-    ├── placeholder1.jpg # Gallery image 1
-    ├── placeholder2.jpg # Gallery image 2
-    ├── placeholder3.jpg # Gallery image 3
-    ├── placeholder4.jpg # Gallery image 4
-    ├── placeholder5.jpg # Gallery image 5
-    └── placeholder6.jpg # Gallery image 6
+├── index.html          # Main HTML file
+├── styles.css          # CSS styles
+├── script.js           # JavaScript functionality
+├── favicon.svg         # Website favicon
+├── certificates/       # Certificate images
+├── gallery_images/     # Gallery section images
+├── images/            # General website images
+├── project_images/    # Project showcase images
+├── resume/           # Resume documents
+└── testimonial_pics/ # Testimonial section images
 ```
-
-## Setup Instructions
-
-1. Create an `images` directory in the project root
-2. Add the following images to the `images` directory:
-   - `hero-bg.jpg`: A high-resolution nature/environmental image for the hero section
-   - `placeholder1.jpg` through `placeholder6.jpg`: Images showcasing environmental projects and activism work
 
 ## Features
 
-- Responsive design that works on all devices
-- Modern and clean user interface
-- Smooth scrolling navigation
-- Interactive photo gallery
+- Modern, responsive design with mobile-first approach
+- Interactive navigation with smooth scrolling
+- Project portfolio with category filtering (Environmental & Diplomatic)
+- Media coverage section with external links
+- Interactive image gallery with lightbox
+- Certificates carousel with touch support
+- Testimonials section
 - Contact form with validation
 - Social media integration
-- Animated sections and transitions
+- SEO optimized with meta tags and structured data
+- Google Analytics integration
+- Performance optimized images and animations
 
-## Customization
+## Sections
 
-1. Replace placeholder images with actual project photos
-2. Update the content in `index.html` with actual text and information
-3. Modify color scheme in `styles.css` (current theme uses earth tones)
-4. Add social media links in the contact section
+1. **Hero** - Engaging introduction with call-to-action buttons
+2. **About** - Personal introduction and background
+3. **Projects** - Filterable grid of environmental and diplomatic projects
+4. **Media** - Media coverage and interviews
+5. **Certificates** - Interactive carousel of achievements
+6. **Gallery** - Photo gallery of activities and events
+7. **Testimonials** - Feedback from collaborators
+8. **Contact** - Contact form and social media links
 
-## Dependencies
+## Technical Details
 
-- Font Awesome (included via CDN)
-- Google Fonts: Playfair Display and Raleway (included via CDN)
+### Dependencies
 
-## Browser Support
+- Font Awesome 6.0.0 (via CDN)
+- Google Fonts: Playfair Display & Raleway (via CDN)
+- Google Analytics (G-9ZKE1VG9BZ)
+
+### Browser Support
 
 - Chrome (latest)
 - Firefox (latest)
 - Safari (latest)
 - Edge (latest)
+
+### Color Scheme
+
+- Primary: #2c5530 (Forest Green)
+- Secondary: #8db600 (Nature Green)
+- Text: #333333
+- Background: #f5f5f5
+- White: #ffffff
 
 ## License
 

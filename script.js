@@ -155,3 +155,52 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+// Function to animate number counting
+function animateCounter(element) {
+  const target = parseInt(element.getAttribute("data-target"));
+  const duration = 2000; // Animation duration in milliseconds
+  const step = 30; // Update interval in milliseconds
+  const steps = duration / step;
+  const increment = target / steps;
+  let current = 0;
+
+  const timer = setInterval(() => {
+    current += increment;
+    if (current >= target) {
+      element.textContent = target + "+";
+      clearInterval(timer);
+    } else {
+      element.textContent = Math.floor(current) + "+";
+    }
+  }, step);
+
+  element.classList.add("animated");
+}
+
+// Function to check if element is in viewport
+function isInViewport(element) {
+  const rect = element.getBoundingClientRect();
+  return (
+    rect.top >= 0 &&
+    rect.left >= 0 &&
+    rect.bottom <=
+      (window.innerHeight || document.documentElement.clientHeight) &&
+    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+  );
+}
+
+// Function to handle scroll and start animation
+function handleScroll() {
+  const numbers = document.querySelectorAll(".impact-numbers .number");
+  numbers.forEach((number) => {
+    if (isInViewport(number) && !number.classList.contains("animated")) {
+      animateCounter(number);
+    }
+  });
+}
+
+// Add scroll event listener
+window.addEventListener("scroll", handleScroll);
+
+// Initial check in case elements are already in viewport
+document.addEventListener("DOMContentLoaded", handleScroll);

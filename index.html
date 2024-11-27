@@ -70,30 +70,6 @@
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Raleway:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        if ("loading" in HTMLImageElement.prototype) {
-          // Browser supports native lazy loading
-          const images = document.querySelectorAll("img");
-          images.forEach((img) => {
-            if (!img.hasAttribute("loading")) {
-              img.setAttribute("loading", "lazy");
-            }
-          });
-        } else {
-          // Fallback for browsers that don't support native lazy loading
-          const script = document.createElement("script");
-          script.src =
-            "https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js";
-          document.body.appendChild(script);
-
-          script.onload = function () {
-            const observer = lozad();
-            observer.observe();
-          };
-        }
-      });
-    </script>
   </head>
   <body>
     <nav class="navbar">
@@ -147,7 +123,7 @@
         <h2>About Me</h2>
         <div class="about-content">
           <div class="about-image">
-            <img src="images/my_headshot.jpg" alt="Tekla Modebadze" loading="lazy"/>
+            <img src="images/my_headshot.jpg" alt="Tekla Modebadze" />
           </div>
           <div class="about-text">
             <p class="bio-intro">
@@ -286,7 +262,6 @@
               <img
                 src="project_images/IMG_4350.JPG"
                 alt="Eco-Club Initiative"
-                loading="lazy"
               />
             </div>
             <div class="project-content">
@@ -317,7 +292,6 @@
               <img
                 src="project_images/climate ambassador camp.JPG"
                 alt="Climate Ambassadors Program"
-                loading="lazy"
               />
             </div>
             <div class="project-content">
@@ -343,7 +317,6 @@
               <img
                 src="project_images/Greens Camp.jpg"
                 alt="Greens Ideathon Camp"
-                loading="lazy"
               />
             </div>
             <div class="project-content">
@@ -375,7 +348,6 @@
               <img
                 src="project_images/spain delegate MUN.JPG"
                 alt="Model United Nations (MUN) Leadership"
-                loading="lazy"
               />
             </div>
             <div class="project-content">
@@ -405,7 +377,6 @@
               <img
                 src="project_images/Erasmus in Ireland.jpg"
                 alt="Erasmus+ Exchange Programs"
-                loading="lazy"
               />
             </div>
             <div class="project-content">
@@ -438,7 +409,6 @@
               <img
                 src="project_images/electionville .JPG"
                 alt="Electionville Governance Simulation"
-                loading="lazy"
               />
             </div>
             <div class="project-content">
@@ -508,7 +478,6 @@
                 <img
                   src="certificates/WhatsApp Image 2024-11-22 at 09.00.56_4628edb5.jpg"
                   alt="STEAM Winter School Certificate"
-                  loading="lazy"
                 />
                 <div class="certificate-description">
                   <h3>STEAM Winter School</h3>
@@ -523,7 +492,6 @@
                 <img
                   src="certificates/WhatsApp Image 2024-11-22 at 09.27.51_3d05eb66.jpg"
                   alt="Model United Nations Certificate"
-                  loading="lazy"
                 />
                 <div class="certificate-description">
                   <h3>Model United Nations (MUN)</h3>
@@ -537,7 +505,6 @@
                 <img
                   src="certificates/WhatsApp Image 2024-11-22 at 09.27.52_38df2a51.jpg"
                   alt="Electionville Simulation Certificate"
-                  loading="lazy"
                 />
                 <div class="certificate-description">
                   <h3>Electionville Simulation</h3>
@@ -552,7 +519,6 @@
                 <img
                   src="certificates/WhatsApp Image 2024-11-22 at 09.27.53_a1383c9e.jpg"
                   alt="Franklin Academy Certificate"
-                  loading="lazy"
                 />
                 <div class="certificate-description">
                   <h3>
@@ -570,7 +536,6 @@
                 <img
                   src="certificates/WhatsApp Image 2024-11-22 at 09.27.53_da9d1df8.jpg"
                   alt="Franklin Academy Module I Certificate"
-                  loading="lazy"
                 />
                 <div class="certificate-description">
                   <h3>Franklin Academy Module I Completion</h3>
@@ -585,7 +550,6 @@
                 <img
                   src="certificates/WhatsApp Image 2024-11-22 at 09.27.54_02a00c94.jpg"
                   alt="Practically Speaking Certificate"
-                  loading="lazy"
                 />
                 <div class="certificate-description">
                   <h3>Practically Speaking English Course</h3>
@@ -599,7 +563,6 @@
                 <img
                   src="certificates/WhatsApp Image 2024-11-22 at 09.27.55_1b890014.jpg"
                   alt="Civic Education Teachers Forum Certificate"
-                  loading="lazy"
                 />
                 <div class="certificate-description">
                   <h3>Civic Education Teachers Forum – Volunteer</h3>
@@ -613,7 +576,6 @@
                 <img
                   src="certificates/WhatsApp Image 2024-11-22 at 09.27.55_b8d0922c.jpg"
                   alt="Step Forward Success Academy Certificate"
-                  loading="lazy"
                 />
                 <div class="certificate-description">
                   <h3>Step Forward – Success Academy Graduate</h3>
@@ -629,7 +591,6 @@
                 <img
                   src="certificates/WhatsApp Image 2024-11-22 at 09.27.56_70b25c10.jpg"
                   alt="Climate Ambassadors Camp Certificate"
-                  loading="lazy"
                 />
                 <div class="certificate-description">
                   <h3>Climate Ambassadors Camp</h3>
@@ -644,7 +605,6 @@
                 <img
                   src="certificates/WhatsApp Image 2024-11-22 at 09.27.57_2a76a2e4.jpg"
                   alt="Develop Your City Certificate"
-                  loading="lazy"
                 />
                 <div class="certificate-description">
                   <h3>Develop Your City Event</h3>
@@ -658,7 +618,6 @@
                 <img
                   src="certificates/WhatsApp Image 2024-11-22 at 09.27.58_1f2605e4.jpg"
                   alt="Tbilisi Book Fest Certificate"
-                  loading="lazy"
                 />
                 <div class="certificate-description">
                   <h3>Volunteer at Tbilisi Book Fest</h3>
@@ -672,7 +631,6 @@
                 <img
                   src="certificates/WhatsApp Image 2024-11-22 at 09.27.58_35037949.jpg"
                   alt="School Literature Conference Certificate"
-                  loading="lazy"
                 />
                 <div class="certificate-description">
                   <h3>School Literature Conference</h3>
@@ -686,7 +644,6 @@
                 <img
                   src="certificates/WhatsApp Image 2024-11-22 at 09.27.58_608c64ec.jpg"
                   alt="General Mazniashvili Youth Legion Certificate"
-                  loading="lazy"
                 />
                 <div class="certificate-description">
                   <h3>General Mazniashvili Youth Legion Graduate</h3>
@@ -700,7 +657,6 @@
                 <img
                   src="certificates/WhatsApp Image 2024-11-22 at 09.27.58_f64fbbc0.jpg"
                   alt="Army Camp Certificate"
-                  loading="lazy"
                 />
                 <div class="certificate-description">
                   <h3>Army Camp Participant</h3>
@@ -732,63 +688,54 @@
             <img
               src="gallery_images/IMG_4203.JPG"
               alt="Gallery Image 1 - Tekla Modebadze at a community event"
-              loading="lazy"
             />
           </div>
           <div class="gallery-item">
             <img
               src="gallery_images/IMG_4350.JPG"
               alt="Gallery Image 2 - Tekla Modebadze participating in a tree planting event"
-              loading="lazy"
             />
           </div>
           <div class="gallery-item">
             <img
               src="gallery_images/IMG_4351.JPG"
               alt="Gallery Image 3 - Tekla Modebadze with a group of volunteers"
-              loading="lazy"
             />
           </div>
           <div class="gallery-item">
             <img
               src="gallery_images/IMG_4352.JPG"
               alt="Gallery Image 4 - Tekla Modebadze at a conference"
-              loading="lazy"
             />
           </div>
           <div class="gallery-item">
             <img
               src="gallery_images/IMG_4354.JPG"
               alt="Gallery Image 5 - Tekla Modebadze with a certificate"
-              loading="lazy"
             />
           </div>
           <div class="gallery-item">
             <img
               src="gallery_images/IMG_4356.JPG"
               alt="Gallery Image 6 - Tekla Modebadze at a workshop"
-              loading="lazy"
             />
           </div>
           <div class="gallery-item">
             <img
               src="gallery_images/IMG_4387.JPG"
               alt="Gallery Image 7 - Tekla Modebadze with a group of students"
-              loading="lazy"
             />
           </div>
           <div class="gallery-item">
             <img
               src="gallery_images/IMG_4388.JPG"
               alt="Gallery Image 8 - Tekla Modebadze at a community event"
-              loading="lazy"
             />
           </div>
           <div class="gallery-item">
             <img
               src="gallery_images/IMG_4395.JPG"
               alt="Gallery Image 9 - Tekla Modebadze with a certificate"
-              loading="lazy"
             />
           </div>
         </div>
@@ -807,7 +754,7 @@
               </p>
             </div>
             <div class="testimonial-author">
-              <img src="testimonial_pics/Sophia.jpg" alt="Sophia Bachilava" loading="lazy"/>
+              <img src="testimonial_pics/Sophia.jpg" alt="Sophia Bachilava" />
               <div class="author-info">
                 <h4>Sophia Bachilava</h4>
                 <p>Tbilisi Youth Club Mentor</p>
@@ -825,7 +772,7 @@
               </p>
             </div>
             <div class="testimonial-author">
-              <img src="testimonial_pics/civic.jpg" alt="Kristine Gongadze" loading="lazy"/>
+              <img src="testimonial_pics/civic.jpg" alt="Kristine Gongadze" />
               <div class="author-info">
                 <h4>Kristine Gongadze</h4>
                 <p>Civic Education Teacher</p>
@@ -843,7 +790,7 @@
               </p>
             </div>
             <div class="testimonial-author">
-              <img src="testimonial_pics/Mar.jpg" alt="Mar Mikhelidze" loading="lazy"/>
+              <img src="testimonial_pics/Mar.jpg" alt="Mar Mikhelidze" />
               <div class="author-info">
                 <h4>Mar Mikhelidze</h4>
                 <p>Bicycle Mayor of Tbilisi</p>

@@ -54,15 +54,15 @@ if (closeModal && modal) {
 // Form submission handling
 if (contactForm) {
   const submitButton = contactForm.querySelector('button[type="submit"]');
-  
+
   contactForm.addEventListener("submit", async function (e) {
     e.preventDefault();
-    
+
     if (submitButton) {
       submitButton.disabled = true;
       submitButton.textContent = "Sending...";
     }
-    
+
     try {
       const response = await fetch(this.action, {
         method: "POST",
@@ -80,7 +80,9 @@ if (contactForm) {
         throw new Error("Form submission failed");
       }
     } catch (error) {
-      alert("Oops! There was a problem submitting your form. Please try again.");
+      alert(
+        "Oops! There was a problem submitting your form. Please try again."
+      );
       console.error("Form submission error:", error);
     } finally {
       // Re-enable submit button

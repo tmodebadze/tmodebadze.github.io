@@ -70,6 +70,30 @@
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Raleway:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if ("loading" in HTMLImageElement.prototype) {
+          // Browser supports native lazy loading
+          const images = document.querySelectorAll("img");
+          images.forEach((img) => {
+            if (!img.hasAttribute("loading")) {
+              img.setAttribute("loading", "lazy");
+            }
+          });
+        } else {
+          // Fallback for browsers that don't support native lazy loading
+          const script = document.createElement("script");
+          script.src =
+            "https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js";
+          document.body.appendChild(script);
+
+          script.onload = function () {
+            const observer = lozad();
+            observer.observe();
+          };
+        }
+      });
+    </script>
   </head>
   <body>
     <nav class="navbar">
@@ -87,6 +111,7 @@
           <li><a href="#media">Media</a></li>
           <li><a href="#certificates">Certificates</a></li>
           <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#testimonials">Testimonials</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
       </div>
@@ -122,7 +147,7 @@
         <h2>About Me</h2>
         <div class="about-content">
           <div class="about-image">
-            <img src="images/my_headshot.jpg" alt="Tekla Modebadze" />
+            <img src="images/my_headshot.jpg" alt="Tekla Modebadze" loading="lazy"/>
           </div>
           <div class="about-text">
             <p class="bio-intro">
@@ -261,6 +286,7 @@
               <img
                 src="project_images/IMG_4350.JPG"
                 alt="Eco-Club Initiative"
+                loading="lazy"
               />
             </div>
             <div class="project-content">
@@ -291,6 +317,7 @@
               <img
                 src="project_images/climate ambassador camp.JPG"
                 alt="Climate Ambassadors Program"
+                loading="lazy"
               />
             </div>
             <div class="project-content">
@@ -316,6 +343,7 @@
               <img
                 src="project_images/Greens Camp.jpg"
                 alt="Greens Ideathon Camp"
+                loading="lazy"
               />
             </div>
             <div class="project-content">
@@ -347,6 +375,7 @@
               <img
                 src="project_images/spain delegate MUN.JPG"
                 alt="Model United Nations (MUN) Leadership"
+                loading="lazy"
               />
             </div>
             <div class="project-content">
@@ -375,7 +404,8 @@
             <div class="project-image">
               <img
                 src="project_images/Erasmus in Ireland.jpg"
-                alt="Erasmus+ Exchange Programs"  
+                alt="Erasmus+ Exchange Programs"
+                loading="lazy"
               />
             </div>
             <div class="project-content">
@@ -408,6 +438,7 @@
               <img
                 src="project_images/electionville .JPG"
                 alt="Electionville Governance Simulation"
+                loading="lazy"
               />
             </div>
             <div class="project-content">
@@ -429,8 +460,8 @@
                   performance metrics.
                 </li>
                 <li>
-                  Organized intensive workshops on politics and governance
-                  with experts.
+                  Organized intensive workshops on politics and governance with
+                  experts.
                 </li>
               </ul>
             </div>
@@ -477,6 +508,7 @@
                 <img
                   src="certificates/WhatsApp Image 2024-11-22 at 09.00.56_4628edb5.jpg"
                   alt="STEAM Winter School Certificate"
+                  loading="lazy"
                 />
                 <div class="certificate-description">
                   <h3>STEAM Winter School</h3>
@@ -491,6 +523,7 @@
                 <img
                   src="certificates/WhatsApp Image 2024-11-22 at 09.27.51_3d05eb66.jpg"
                   alt="Model United Nations Certificate"
+                  loading="lazy"
                 />
                 <div class="certificate-description">
                   <h3>Model United Nations (MUN)</h3>
@@ -504,6 +537,7 @@
                 <img
                   src="certificates/WhatsApp Image 2024-11-22 at 09.27.52_38df2a51.jpg"
                   alt="Electionville Simulation Certificate"
+                  loading="lazy"
                 />
                 <div class="certificate-description">
                   <h3>Electionville Simulation</h3>
@@ -518,6 +552,7 @@
                 <img
                   src="certificates/WhatsApp Image 2024-11-22 at 09.27.53_a1383c9e.jpg"
                   alt="Franklin Academy Certificate"
+                  loading="lazy"
                 />
                 <div class="certificate-description">
                   <h3>
@@ -535,6 +570,7 @@
                 <img
                   src="certificates/WhatsApp Image 2024-11-22 at 09.27.53_da9d1df8.jpg"
                   alt="Franklin Academy Module I Certificate"
+                  loading="lazy"
                 />
                 <div class="certificate-description">
                   <h3>Franklin Academy Module I Completion</h3>
@@ -549,6 +585,7 @@
                 <img
                   src="certificates/WhatsApp Image 2024-11-22 at 09.27.54_02a00c94.jpg"
                   alt="Practically Speaking Certificate"
+                  loading="lazy"
                 />
                 <div class="certificate-description">
                   <h3>Practically Speaking English Course</h3>
@@ -562,6 +599,7 @@
                 <img
                   src="certificates/WhatsApp Image 2024-11-22 at 09.27.55_1b890014.jpg"
                   alt="Civic Education Teachers Forum Certificate"
+                  loading="lazy"
                 />
                 <div class="certificate-description">
                   <h3>Civic Education Teachers Forum – Volunteer</h3>
@@ -575,6 +613,7 @@
                 <img
                   src="certificates/WhatsApp Image 2024-11-22 at 09.27.55_b8d0922c.jpg"
                   alt="Step Forward Success Academy Certificate"
+                  loading="lazy"
                 />
                 <div class="certificate-description">
                   <h3>Step Forward – Success Academy Graduate</h3>
@@ -590,6 +629,7 @@
                 <img
                   src="certificates/WhatsApp Image 2024-11-22 at 09.27.56_70b25c10.jpg"
                   alt="Climate Ambassadors Camp Certificate"
+                  loading="lazy"
                 />
                 <div class="certificate-description">
                   <h3>Climate Ambassadors Camp</h3>
@@ -604,6 +644,7 @@
                 <img
                   src="certificates/WhatsApp Image 2024-11-22 at 09.27.57_2a76a2e4.jpg"
                   alt="Develop Your City Certificate"
+                  loading="lazy"
                 />
                 <div class="certificate-description">
                   <h3>Develop Your City Event</h3>
@@ -617,6 +658,7 @@
                 <img
                   src="certificates/WhatsApp Image 2024-11-22 at 09.27.58_1f2605e4.jpg"
                   alt="Tbilisi Book Fest Certificate"
+                  loading="lazy"
                 />
                 <div class="certificate-description">
                   <h3>Volunteer at Tbilisi Book Fest</h3>
@@ -630,6 +672,7 @@
                 <img
                   src="certificates/WhatsApp Image 2024-11-22 at 09.27.58_35037949.jpg"
                   alt="School Literature Conference Certificate"
+                  loading="lazy"
                 />
                 <div class="certificate-description">
                   <h3>School Literature Conference</h3>
@@ -643,6 +686,7 @@
                 <img
                   src="certificates/WhatsApp Image 2024-11-22 at 09.27.58_608c64ec.jpg"
                   alt="General Mazniashvili Youth Legion Certificate"
+                  loading="lazy"
                 />
                 <div class="certificate-description">
                   <h3>General Mazniashvili Youth Legion Graduate</h3>
@@ -656,6 +700,7 @@
                 <img
                   src="certificates/WhatsApp Image 2024-11-22 at 09.27.58_f64fbbc0.jpg"
                   alt="Army Camp Certificate"
+                  loading="lazy"
                 />
                 <div class="certificate-description">
                   <h3>Army Camp Participant</h3>
@@ -749,7 +794,65 @@
         </div>
       </div>
     </section>
+    <section id="testimonials" class="testimonials">
+      <div class="container">
+        <h2>What People Say</h2>
+        <div class="testimonials-grid">
+          <div class="testimonial-card">
+            <div class="testimonial-content">
+              <p>
+                Tekla's passion for diplomacy and environmental advocacy sets
+                her apart. She brings fresh perspectives and innovative
+                solutions to every project she undertakes.
+              </p>
+            </div>
+            <div class="testimonial-author">
+              <img src="testimonial_pics/Sophia.jpg" alt="Sophia Bachilava" loading="lazy"/>
+              <div class="author-info">
+                <h4>Sophia Bachilava</h4>
+                <p>Tbilisi Youth Club Mentor</p>
+              </div>
+            </div>
+          </div>
 
+          <div class="testimonial-card">
+            <div class="testimonial-content">
+              <p>
+                Tekla is a driven and innovative student, excelling in
+                academics, social initiatives, and leadership. Her passion for
+                learning and creating meaningful change sets her apart as truly
+                exceptional.
+              </p>
+            </div>
+            <div class="testimonial-author">
+              <img src="testimonial_pics/civic.jpg" alt="Kristine Gongadze" loading="lazy"/>
+              <div class="author-info">
+                <h4>Kristine Gongadze</h4>
+                <p>Civic Education Teacher</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="testimonial-content">
+              <p>
+                Tekla Modebadze is a passionate environmental advocate and
+                exceptional leader. From organizing Eco Club initiatives to
+                raising awareness about cycling challenges, her commitment to
+                sustainability and community impact is truly remarkable.
+              </p>
+            </div>
+            <div class="testimonial-author">
+              <img src="testimonial_pics/Mar.jpg" alt="Mar Mikhelidze" loading="lazy"/>
+              <div class="author-info">
+                <h4>Mar Mikhelidze</h4>
+                <p>Bicycle Mayor of Tbilisi</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
     <section id="contact" class="contact">
       <div class="container">
         <h2>Get in Touch</h2>
@@ -809,7 +912,9 @@
         <p>&copy; 2024 Tekla Modebadze. All rights reserved.</p>
       </div>
     </footer>
-
+    <a href="#" class="back-to-top" aria-label="Back to top">
+      <i class="fas fa-arrow-up"></i>
+    </a>
     <script>
       // Mobile menu functionality
       const mobileMenuBtn = document.querySelector(".mobile-menu-btn");
@@ -825,7 +930,26 @@
           navLinks.classList.remove("active");
         });
       });
+      // Back to top button functionality
+      const backToTopButton = document.querySelector(".back-to-top");
+
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 5000) {
+          backToTopButton.classList.add("visible");
+        } else {
+          backToTopButton.classList.remove("visible");
+        }
+      });
+
+      backToTopButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      });
     </script>
+
     <script src="script.js"></script>
     <script src="js/carousel.js"></script>
   </body>

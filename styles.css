@@ -288,13 +288,13 @@ section:not(.hero) h2 {
 .timeline-item {
   position: relative;
   margin-bottom: 2rem;
-  padding-left: 1.5rem;
+  padding-left: 0.5rem;
 }
 
 .timeline-item::before {
   content: "";
   position: absolute;
-  left: -2rem;
+  left: -2.5rem;
   top: 0.5rem;
   width: 1rem;
   height: 1rem;
@@ -306,11 +306,10 @@ section:not(.hero) h2 {
 .timeline-date {
   font-weight: 600;
   color: var(--primary-color);
-  margin-bottom: 0.5rem;
 }
 
 .timeline-content h4 {
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.2rem;
   color: var(--text-color);
 }
 
